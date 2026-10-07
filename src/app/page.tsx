@@ -5,8 +5,6 @@ import SoundtrackToggle from "@/components/SoundtrackToggle";
 import HeroVideoIntro from "@/components/HeroVideoIntro";
 import InvitationEditorial from "@/components/InvitationEditorial";
 import RingDateReveal from "@/components/RingDateReveal";
-import ChurchCeremony from "@/components/ChurchCeremony";
-import ReceptionCelebration from "@/components/ReceptionCelebration";
 import LocationExperience from "@/components/LocationExperience";
 import OptionalDetailsSection from "@/components/OptionalDetailsSection";
 import RsvpSection from "@/components/RsvpSection";
@@ -28,25 +26,19 @@ export default function WeddingInvitationPage() {
         {/* Scene 02: Chapter I — The Formal Paper Invitation (With Parents, House Names & Couple Details) */}
         <InvitationEditorial />
 
-        {/* Scene 03: Save Our Sacred Date — Interactive Scratch Card Reveal */}
+        {/* Scene 03: Save Our Sacred Date — Interactive Scratch Card Reveal (With Poppins Numbers) */}
         <RingDateReveal />
 
-        {/* Scene 04: Chapter II — The Holy Matrimony Church Ceremony */}
-        <ChurchCeremony />
-
-        {/* Scene 05: Chapter III — The Wedding Reception & Banquet Celebration */}
-        <ReceptionCelebration />
-
-        {/* Scene 06: Chapter IV — The Gathering Places & Location Coordinates */}
+        {/* Scene 04: Chapter II — Sacred Celebrations & Destinations (Engagement, Matrimony & Reception) */}
         <LocationExperience />
 
-        {/* Scene 07: Guest Provisions (Dress Code, Accommodation, Notes) */}
+        {/* Scene 05: Guest Guidance & Provisions (Dress Code, Accommodation, Notes) */}
         <OptionalDetailsSection />
 
-        {/* Scene 08: RSVP Tactile Experience & Train Transportation System */}
+        {/* Scene 06: RSVP & Train Transportation Management System */}
         <RsvpSection />
 
-        {/* Scene 09: Final Blessing & Sacred Twilight Dim */}
+        {/* Scene 07: Final Blessing & Host Portal */}
         <FinalBlessing />
       </main>
     </SmoothScrollProvider>

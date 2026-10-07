@@ -50,6 +50,10 @@
   font-family: var(--font-body), "Montserrat", "Inter", sans-serif;
 }
 
+.font-poppins {
+  font-family: var(--font-poppins), 'Poppins', 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
 /* Foil and Metallic Textures */
 .gold-foil-text {
   background: linear-gradient(135deg, #B58428 0%, #E8C16A 30%, #9A6F1C 60%, #E8C16A 100%);

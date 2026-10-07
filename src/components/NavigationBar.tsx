@@ -26,9 +26,7 @@ export default function NavigationBar() {
   const navLinks = [
     { label: "Invitation", id: "scene-invitation" },
     { label: "Save The Date", id: "scene-date" },
-    { label: "Ceremony", id: "scene-ceremony" },
-    { label: "Reception", id: "scene-reception" },
-    { label: "Locations", id: "scene-location" },
+    { label: "Celebrations & Venues", id: "scene-location" },
     { label: "RSVP", id: "scene-rsvp" },
   ];
 

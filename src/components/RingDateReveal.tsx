@@ -429,9 +429,9 @@ END:VCALENDAR`;
               {weddingData.wedding.dayOfWeek}
             </p>
 
-            {/* Sculpted Date Numeral */}
+            {/* Sculpted Date Numeral with Natural Poppins Font */}
             <div className="my-1 relative flex items-center justify-center">
-              <span className="font-serif-luxury text-5xl sm:text-7xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-[#B88424] via-[#F2D68C] to-[#8F6416] drop-shadow-sm leading-none">
+              <span className="font-poppins text-5xl sm:text-7xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-[#B88424] via-[#F2D68C] to-[#8F6416] drop-shadow-sm leading-none">
                 {weddingData.wedding.dayNumber}
               </span>
               <span className="absolute -top-1 -right-5 text-base text-[#D4A33B]">
@@ -442,24 +442,24 @@ END:VCALENDAR`;
             {/* Month & Year */}
             <h3 className="font-serif-luxury text-2xl sm:text-3xl font-bold tracking-wider text-[#211B17] uppercase leading-none">
               {weddingData.wedding.month}{" "}
-              <span className="text-[#8E681C]">{weddingData.wedding.year}</span>
+              <span className="font-poppins font-bold text-[#8E681C]">{weddingData.wedding.year}</span>
             </h3>
 
             {/* Time & Location */}
             <div className="mt-3 flex flex-col items-center gap-1 text-[#5C4F46]">
               <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FAF4E6] border border-[#D4A33B]/30 text-[11px] font-sans-clean font-semibold text-[#8E681C]">
                 <Clock className="w-3 h-3 text-[#D4A33B]" />
-                <span>{weddingData.wedding.time}</span>
+                <span className="font-poppins font-semibold">{weddingData.wedding.time}</span>
               </div>
               <p className="text-[11px] font-sans-clean text-[#65584F] mt-0.5">
                 {weddingData.ceremony.venue}
               </p>
             </div>
 
-            {/* Live Countdown */}
+            {/* Live Countdown in Clean Poppins Font */}
             <div className="pt-3 mt-3 border-t border-[#D4A33B]/20 grid grid-cols-4 gap-2 w-full max-w-xs">
               <div className="p-1.5 rounded-lg bg-[#FAF7F2] border border-[#D4A33B]/30 text-center">
-                <span className="font-serif-luxury text-base sm:text-lg font-bold text-[#78223B] block leading-tight">
+                <span className="font-poppins text-base sm:text-lg font-bold text-[#78223B] block leading-tight">
                   {timeLeft.days}
                 </span>
                 <span className="text-[8px] uppercase tracking-wider text-[#8E7F74] font-sans-clean block font-medium">
@@ -467,7 +467,7 @@ END:VCALENDAR`;
                 </span>
               </div>
               <div className="p-1.5 rounded-lg bg-[#FAF7F2] border border-[#D4A33B]/30 text-center">
-                <span className="font-serif-luxury text-base sm:text-lg font-bold text-[#78223B] block leading-tight">
+                <span className="font-poppins text-base sm:text-lg font-bold text-[#78223B] block leading-tight">
                   {timeLeft.hours}
                 </span>
                 <span className="text-[8px] uppercase tracking-wider text-[#8E7F74] font-sans-clean block font-medium">
@@ -475,7 +475,7 @@ END:VCALENDAR`;
                 </span>
               </div>
               <div className="p-1.5 rounded-lg bg-[#FAF7F2] border border-[#D4A33B]/30 text-center">
-                <span className="font-serif-luxury text-base sm:text-lg font-bold text-[#78223B] block leading-tight">
+                <span className="font-poppins text-base sm:text-lg font-bold text-[#78223B] block leading-tight">
                   {timeLeft.minutes}
                 </span>
                 <span className="text-[8px] uppercase tracking-wider text-[#8E7F74] font-sans-clean block font-medium">
@@ -483,7 +483,7 @@ END:VCALENDAR`;
                 </span>
               </div>
               <div className="p-1.5 rounded-lg bg-[#FAF7F2] border border-[#D4A33B]/30 text-center">
-                <span className="font-serif-luxury text-base sm:text-lg font-bold text-[#78223B] block leading-tight">
+                <span className="font-poppins text-base sm:text-lg font-bold text-[#78223B] block leading-tight">
                   {timeLeft.seconds}
                 </span>
                 <span className="text-[8px] uppercase tracking-wider text-[#8E7F74] font-sans-clean block font-medium">

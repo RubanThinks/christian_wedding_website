@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Alex_Brush, Montserrat } from "next/font/google";
+import { Cormorant_Garamond, Alex_Brush, Montserrat, Poppins } from "next/font/google";
 import "./globals.css";
 import { weddingData } from "@/config/wedding";
 
@@ -22,6 +22,13 @@ const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
   variable: "--font-body",
+  display: "swap",
+});
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-poppins",
   display: "swap",
 });
 
@@ -61,7 +68,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${alexBrush.variable} ${montserrat.variable} h-full scroll-smooth`}
+      className={`${cormorant.variable} ${alexBrush.variable} ${montserrat.variable} ${poppins.variable} h-full scroll-smooth`}
     >
       <body className="min-h-full bg-[#FCFAF6] text-[#211B17] antialiased selection:bg-[#C59A45]/20 selection:text-[#211B17]">
         {children}
