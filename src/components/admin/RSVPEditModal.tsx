@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { RSVPData, JourneyTransportSelection } from "@/types/rsvp";
+import { RSVPData, JourneyTransportSelection, GuestSide } from "@/types/rsvp";
 import { weddingData } from "@/config/wedding";
 import { updateRSVP } from "@/lib/firestore";
-import { X, Check, AlertCircle, Train } from "lucide-react";
+import { X, Check, AlertCircle, Train, Bus } from "lucide-react";
 
 export default function RSVPEditModal({
   rsvp,
@@ -16,9 +16,9 @@ export default function RSVPEditModal({
   onSaved: () => void;
 }) {
   const journeys = weddingData.transport.journeys;
-  const boardingStations = weddingData.transport.boardingStations;
   const maxLimit = weddingData.transport.maxGuests || 10;
 
+  const [guestSide, setGuestSide] = useState<GuestSide>(rsvp.guestSide || "groom");
   const [primaryGuestName, setPrimaryGuestName] = useState(rsvp.primaryGuestName);
   const [phone, setPhone] = useState(rsvp.phone);
   const [email, setEmail] = useState(rsvp.email || "");
@@ -33,11 +33,40 @@ export default function RSVPEditModal({
     rsvp.specialRequirements || ""
   );
 
+  const getStationsForSide = (side: GuestSide): string[] => {
+    if (side === "bride") {
+      return (
+        weddingData.transport?.brideTransport?.boardingStations || [
+          "Pravattom (Bus Pickup)",
+          "Other",
+        ]
+      );
+    }
+    return (
+      weddingData.transport?.groomTransport?.boardingStations || [
+        "Kanhangad (Railway Station)",
+        "Other",
+      ]
+    );
+  };
+
   // Transport selections
   const [transport, setTransport] = useState<{
     [jId: string]: JourneyTransportSelection;
   }>(() => {
     const copy: { [jId: string]: JourneyTransportSelection } = {};
+    const defaultSide = rsvp.guestSide || "groom";
+    const defaultStations =
+      defaultSide === "bride"
+        ? weddingData.transport?.brideTransport?.boardingStations || [
+            "Pravattom (Bus Pickup)",
+            "Other",
+          ]
+        : weddingData.transport?.groomTransport?.boardingStations || [
+            "Kanhangad (Railway Station)",
+            "Other",
+          ];
+
     journeys.forEach((j) => {
       const existing = rsvp.transport?.[j.id];
       copy[j.id] = {
@@ -45,12 +74,40 @@ export default function RSVPEditModal({
         allGuests: existing?.allGuests ?? true,
         passengerNames: existing?.passengerNames || [],
         passengerCount: existing?.passengerCount || 0,
-        boardingStation: existing?.boardingStation || boardingStations[0] || "Other",
+        transportMode:
+          existing?.transportMode || (defaultSide === "bride" ? "bus" : "train"),
+        boardingStation:
+          existing?.boardingStation || defaultStations[0] || "Other",
         customBoardingStation: existing?.customBoardingStation || "",
       };
     });
     return copy;
   });
+
+  const handleSideChange = (newSide: GuestSide) => {
+    setGuestSide(newSide);
+    const defaultStation =
+      newSide === "bride"
+        ? weddingData.transport?.brideTransport?.defaultBoarding ||
+          "Pravattom (Bus Pickup)"
+        : weddingData.transport?.groomTransport?.defaultBoarding ||
+          "Kanhangad (Railway Station)";
+    const mode = newSide === "bride" ? "bus" : "train";
+
+    setTransport((prev) => {
+      const next = { ...prev };
+      journeys.forEach((j) => {
+        if (next[j.id]) {
+          next[j.id] = {
+            ...next[j.id],
+            transportMode: mode,
+            boardingStation: defaultStation,
+          };
+        }
+      });
+      return next;
+    });
+  };
 
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -146,6 +203,7 @@ export default function RSVPEditModal({
         primaryGuestName: primaryGuestName.trim(),
         phone: phone.trim(),
         email: email.trim(),
+        guestSide,
         attending,
         guestCount: attending ? guestCount : 0,
         guests: attending ? guests : [],
@@ -190,6 +248,50 @@ export default function RSVPEditModal({
         )}
 
         <form onSubmit={handleSave} className="space-y-6">
+          {/* Family Affiliation / Side */}
+          <div>
+            <label className="block text-xs font-bold text-[#5C4F46] uppercase tracking-wider mb-2">
+              Guest Side & Transport Classification *
+            </label>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => handleSideChange("groom")}
+                className={`py-3 px-3 rounded-xl text-xs font-bold transition-all border flex flex-col items-center text-center gap-1 ${
+                  guestSide === "groom"
+                    ? "bg-[#EBF3FB] border-[#1E429F] text-[#1E429F] shadow-xs ring-1 ring-[#1E429F]"
+                    : "bg-[#FBF9F5] border-[#E5DFD5] text-[#7A6C60]"
+                }`}
+              >
+                <div className="flex items-center gap-1.5">
+                  <Train className="w-3.5 h-3.5" />
+                  <span>🤵 Groom&apos;s Side</span>
+                </div>
+                <span className="text-[10px] font-normal opacity-85">
+                  Mulavanal • Train @ Kanhangad
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleSideChange("bride")}
+                className={`py-3 px-3 rounded-xl text-xs font-bold transition-all border flex flex-col items-center text-center gap-1 ${
+                  guestSide === "bride"
+                    ? "bg-[#FBEAEF] border-[#78223B] text-[#78223B] shadow-xs ring-1 ring-[#78223B]"
+                    : "bg-[#FBF9F5] border-[#E5DFD5] text-[#7A6C60]"
+                }`}
+              >
+                <div className="flex items-center gap-1.5">
+                  <Bus className="w-3.5 h-3.5" />
+                  <span>👰 Bride&apos;s Side</span>
+                </div>
+                <span className="text-[10px] font-normal opacity-85">
+                  Pazhayapurayil • Bus @ Pravattom
+                </span>
+              </button>
+            </div>
+          </div>
+
           {/* Primary details */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
@@ -308,24 +410,39 @@ export default function RSVPEditModal({
                 </div>
               </div>
 
-              {/* Train Transportation */}
+              {/* Transportation Requirements (Train for Groom / Bus for Bride) */}
               <div className="pt-3 border-t border-[#F0EAE1]">
                 <h4 className="text-xs font-bold text-[#5C4F46] uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                  <Train className="w-4 h-4 text-[#78223B]" />
-                  <span>Train Transportation Requirements</span>
+                  {guestSide === "bride" ? (
+                    <Bus className="w-4 h-4 text-[#78223B]" />
+                  ) : (
+                    <Train className="w-4 h-4 text-[#78223B]" />
+                  )}
+                  <span>
+                    {guestSide === "bride"
+                      ? "Chartered Bus Transportation (Bride's Side • Pravattom)"
+                      : "Train Transportation (Groom's Side • Kanhangad)"}
+                  </span>
                 </h4>
 
                 <div className="space-y-4">
                   {journeys.map((j) => {
                     const sel = transport[j.id];
+                    const isBus = guestSide === "bride";
+                    const currentStations = getStationsForSide(guestSide);
+
                     return (
                       <div
                         key={j.id}
-                        className="p-4 rounded-xl border border-[#E5DFD5] bg-[#FAF8F5]"
+                        className={`p-4 rounded-xl border ${
+                          isBus
+                            ? "border-[#F5C2C7] bg-[#FEF8F9]"
+                            : "border-[#E5DFD5] bg-[#FAF8F5]"
+                        }`}
                       >
                         <div className="flex items-center justify-between mb-3">
                           <span className="text-xs font-bold text-[#211B17]">
-                            🚆 {j.label} Journey ({j.date})
+                            {isBus ? "🚌" : "🚆"} {j.label} {isBus ? "Chartered Bus" : "Train"} ({j.date})
                           </span>
                           <div className="flex items-center gap-2">
                             <button
@@ -333,7 +450,9 @@ export default function RSVPEditModal({
                               onClick={() => toggleTransportJourney(j.id, true)}
                               className={`px-3 py-1 rounded-md text-[11px] font-bold ${
                                 sel?.required
-                                  ? "bg-[#1E429F] text-white"
+                                  ? isBus
+                                    ? "bg-[#78223B] text-white"
+                                    : "bg-[#1E429F] text-white"
                                   : "bg-white border text-[#5C4F46]"
                               }`}
                             >
@@ -357,16 +476,16 @@ export default function RSVPEditModal({
                           <div className="space-y-3 pt-3 border-t border-[#EBE4D8]">
                             <div>
                               <label className="block text-[11px] font-bold text-[#5C4F46] mb-1">
-                                Boarding Station
+                                {isBus ? "Bus Pickup Point" : "Boarding Railway Station"}
                               </label>
                               <select
                                 value={sel.boardingStation}
                                 onChange={(e) =>
                                   handleStationChange(j.id, e.target.value)
                                 }
-                                className="w-full px-3 py-1.5 rounded-lg border border-[#D5C9B8] bg-white text-xs"
+                                className="w-full px-3 py-1.5 rounded-lg border border-[#D5C9B8] bg-white text-xs font-medium"
                               >
-                                {boardingStations.map((stn) => (
+                                {currentStations.map((stn: string) => (
                                   <option key={stn} value={stn}>
                                     {stn}
                                   </option>

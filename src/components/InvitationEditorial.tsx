@@ -47,7 +47,7 @@ export default function InvitationEditorial() {
             <div className="flex flex-col items-center mb-6 sm:mb-8">
               <div className="w-14 h-14 rounded-full bg-[#78223B] border-2 border-[#D4A33B] shadow-md flex items-center justify-center mb-3">
                 <span className="font-serif-luxury text-base font-bold text-[#F2DC9B] tracking-wider">
-                  M ✝ E
+                  {(groom.firstName || groom.name).charAt(0)} ✝ {(bride.firstName || bride.name).charAt(0)}
                 </span>
               </div>
               <p className="text-[11px] md:text-xs uppercase tracking-[0.35em] text-[#8E681C] font-sans-clean font-bold">
@@ -113,7 +113,7 @@ export default function InvitationEditorial() {
                   </h2>
                   {groom.houseName && (
                     <p className="text-xs uppercase tracking-[0.25em] text-[#8E681C] font-sans-clean font-bold mt-0.5">
-                      Mulavanal
+                      {groom.houseName}
                     </p>
                   )}
                 </div>
@@ -130,7 +130,7 @@ export default function InvitationEditorial() {
                   </h2>
                   {bride.houseName && (
                     <p className="text-xs uppercase tracking-[0.25em] text-[#8E681C] font-sans-clean font-bold mt-0.5">
-                      Thekkeparambil
+                      {bride.houseName}
                     </p>
                   )}
                 </div>

@@ -19,6 +19,7 @@ import {
   Edit2,
   Trash2,
   Train,
+  Bus,
   CheckCircle2,
   XCircle,
   FileSpreadsheet,
@@ -37,6 +38,7 @@ export default function RSVPTable({
 
   // Filter & Search states
   const [searchTerm, setSearchTerm] = useState("");
+  const [sideFilter, setSideFilter] = useState<string>("all");
   const [attendanceFilter, setAttendanceFilter] = useState<string>("all");
   const [transportFilter, setTransportFilter] = useState<string>("all");
   const [stationFilter, setStationFilter] = useState<string>("all");
@@ -62,7 +64,12 @@ export default function RSVPTable({
 
       if (!matchSearch) return false;
 
-      // 2. Attendance filter
+      // 2. Family Side filter
+      const itemSide = item.guestSide || "groom";
+      if (sideFilter === "groom" && itemSide !== "groom") return false;
+      if (sideFilter === "bride" && itemSide !== "bride") return false;
+
+      // 3. Attendance filter
       if (attendanceFilter === "attending" && !item.attending) return false;
       if (attendanceFilter === "declined" && item.attending) return false;
 
@@ -190,7 +197,23 @@ export default function RSVPTable({
         </div>
 
         {/* Filter Selectors */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-[#F0EAE1]">
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 pt-3 border-t border-[#F0EAE1]">
+          {/* Family Side filter */}
+          <div>
+            <label className="block text-[11px] font-bold text-[#7A6C60] uppercase mb-1">
+              Family Side
+            </label>
+            <select
+              value={sideFilter}
+              onChange={(e) => setSideFilter(e.target.value)}
+              className="w-full px-3 py-1.5 rounded-lg border border-[#D5C9B8] bg-white text-xs font-medium focus:outline-none"
+            >
+              <option value="all">All Families</option>
+              <option value="groom">Groom&apos;s Side (Mulavanal • Train)</option>
+              <option value="bride">Bride&apos;s Side (Pazhayapurayil • Bus)</option>
+            </select>
+          </div>
+
           {/* Attendance filter */}
           <div>
             <label className="block text-[11px] font-bold text-[#7A6C60] uppercase mb-1">
@@ -210,7 +233,7 @@ export default function RSVPTable({
           {/* Transport filter */}
           <div>
             <label className="block text-[11px] font-bold text-[#7A6C60] uppercase mb-1">
-              Train Transportation
+              Transport Status
             </label>
             <select
               value={transportFilter}
@@ -218,29 +241,26 @@ export default function RSVPTable({
               className="w-full px-3 py-1.5 rounded-lg border border-[#D5C9B8] bg-white text-xs font-medium focus:outline-none"
             >
               <option value="all">All Transport Statuses</option>
-              <option value="j9">9th Train Required</option>
-              <option value="j16">16th Train Required</option>
-              <option value="both">Both Trains Required</option>
-              <option value="none">No Train Needed</option>
+              <option value="j9">9th Jan Required</option>
+              <option value="j16">16th Jan Required</option>
+              <option value="both">Both Dates Required</option>
+              <option value="none">No Transport Needed</option>
             </select>
           </div>
 
-          {/* Boarding Station filter */}
+          {/* Boarding Point filter */}
           <div>
             <label className="block text-[11px] font-bold text-[#7A6C60] uppercase mb-1">
-              Boarding Station
+              Boarding Location
             </label>
             <select
               value={stationFilter}
               onChange={(e) => setStationFilter(e.target.value)}
               className="w-full px-3 py-1.5 rounded-lg border border-[#D5C9B8] bg-white text-xs font-medium focus:outline-none"
             >
-              <option value="all">All Stations</option>
-              {boardingStations.map((stn) => (
-                <option key={stn} value={stn}>
-                  {stn}
-                </option>
-              ))}
+              <option value="all">All Boarding Points</option>
+              <option value="Kanhangad">Kanhangad (Groom Train)</option>
+              <option value="Pravattom">Pravattom (Bride Bus)</option>
             </select>
           </div>
         </div>
@@ -253,11 +273,12 @@ export default function RSVPTable({
             <thead>
               <tr className="bg-[#FAF7F2] border-b border-[#E5DFD5] text-[#5C4F46] font-sans font-bold uppercase tracking-wider text-[11px]">
                 <th className="py-3.5 px-4">Guest / Family</th>
+                <th className="py-3.5 px-4">Side</th>
                 <th className="py-3.5 px-4">Phone</th>
                 <th className="py-3.5 px-4 text-center">Status</th>
                 <th className="py-3.5 px-4 text-center">Guests</th>
-                <th className="py-3.5 px-4">9th Train</th>
-                <th className="py-3.5 px-4">16th Train</th>
+                <th className="py-3.5 px-4">9th Jan Transport</th>
+                <th className="py-3.5 px-4">16th Jan Transport</th>
                 <th className="py-3.5 px-4">Submitted</th>
                 <th className="py-3.5 px-4 text-right">Actions</th>
               </tr>
@@ -303,7 +324,20 @@ export default function RSVPTable({
                         )}
                       </td>
 
-                      {/* 2. Phone */}
+                      {/* 2. Family Side */}
+                      <td className="py-3.5 px-4">
+                        {row.guestSide === "bride" ? (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-[#F3ECFB] text-[#572B91] border border-[#DFC9F3]">
+                            <span>👰 Bride (Pazhayapurayil)</span>
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-[#EBF3FB] text-[#1E429F] border border-[#BFDBFE]">
+                            <span>🤵 Groom (Mulavanal)</span>
+                          </span>
+                        )}
+                      </td>
+
+                      {/* 3. Phone */}
                       <td className="py-3.5 px-4">
                         <a
                           href={`tel:${row.phone}`}
@@ -313,7 +347,7 @@ export default function RSVPTable({
                         </a>
                       </td>
 
-                      {/* 3. Attending Status */}
+                      {/* 4. Attending Status */}
                       <td className="py-3.5 px-4 text-center">
                         <span
                           className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
@@ -326,24 +360,29 @@ export default function RSVPTable({
                         </span>
                       </td>
 
-                      {/* 4. Guest Count */}
+                      {/* 5. Guest Count */}
                       <td className="py-3.5 px-4 text-center font-bold text-[#211B17]">
                         {row.attending ? row.guestCount : 0}
                       </td>
 
-                      {/* 5. 9th Train */}
+                      {/* 6. 9th Jan Transport */}
                       <td className="py-3.5 px-4">
                         {row.attending && t9?.required ? (
                           <div>
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#EBF3FB] text-[#1E429F] font-bold text-[10px]">
-                              <Train className="w-3 h-3" />
+                            <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded font-bold text-[10px] ${
+                              row.guestSide === "bride"
+                                ? "bg-[#F3ECFB] text-[#572B91]"
+                                : "bg-[#EBF3FB] text-[#1E429F]"
+                            }`}>
+                              {row.guestSide === "bride" ? (
+                                <Bus className="w-3 h-3" />
+                              ) : (
+                                <Train className="w-3 h-3" />
+                              )}
                               <span>{t9.passengerCount} pax</span>
                             </span>
-                            <div className="text-[10px] text-[#5C4F46] mt-0.5">
-                              {t9.boardingStation === "Other" &&
-                              t9.customBoardingStation
-                                ? t9.customBoardingStation
-                                : t9.boardingStation}
+                            <div className="text-[10px] text-[#5C4F46] mt-0.5 font-medium">
+                              {row.guestSide === "bride" ? "Pravattom (Bus)" : "Kanhangad (Train)"}
                             </div>
                           </div>
                         ) : (
@@ -351,19 +390,24 @@ export default function RSVPTable({
                         )}
                       </td>
 
-                      {/* 6. 16th Train */}
+                      {/* 7. 16th Jan Transport */}
                       <td className="py-3.5 px-4">
                         {row.attending && t16?.required ? (
                           <div>
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#F3ECFB] text-[#572B91] font-bold text-[10px]">
-                              <Train className="w-3 h-3" />
+                            <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded font-bold text-[10px] ${
+                              row.guestSide === "bride"
+                                ? "bg-[#F3ECFB] text-[#572B91]"
+                                : "bg-[#EBF3FB] text-[#1E429F]"
+                            }`}>
+                              {row.guestSide === "bride" ? (
+                                <Bus className="w-3 h-3" />
+                              ) : (
+                                <Train className="w-3 h-3" />
+                              )}
                               <span>{t16.passengerCount} pax</span>
                             </span>
-                            <div className="text-[10px] text-[#5C4F46] mt-0.5">
-                              {t16.boardingStation === "Other" &&
-                              t16.customBoardingStation
-                                ? t16.customBoardingStation
-                                : t16.boardingStation}
+                            <div className="text-[10px] text-[#5C4F46] mt-0.5 font-medium">
+                              {row.guestSide === "bride" ? "Pravattom (Bus)" : "Kanhangad (Train)"}
                             </div>
                           </div>
                         ) : (

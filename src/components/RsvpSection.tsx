@@ -89,26 +89,28 @@ export default function RsvpSection() {
             </div>
 
             {/* Direct Contact Coordinates */}
-            <div className="mt-10 pt-6 border-t border-[#D4A33B]/25 flex flex-wrap items-center justify-center gap-6 text-xs text-[#5C4F46] font-sans-clean font-medium">
-              {rsvp.contact && (
-                <a
-                  href={`tel:${rsvp.contact}`}
-                  className="flex items-center gap-2 hover:text-[#78223B] transition-colors"
-                >
-                  <Phone className="w-3.5 h-3.5 text-[#8E681C]" />
-                  <span>{rsvp.contact}</span>
-                </a>
-              )}
-              {rsvp.email && (
-                <a
-                  href={`mailto:${rsvp.email}`}
-                  className="flex items-center gap-2 hover:text-[#78223B] transition-colors"
-                >
-                  <Mail className="w-3.5 h-3.5 text-[#8E681C]" />
-                  <span>{rsvp.email}</span>
-                </a>
-              )}
-            </div>
+            {(rsvp.contact || rsvp.email) && (
+              <div className="mt-10 pt-6 border-t border-[#D4A33B]/25 flex flex-wrap items-center justify-center gap-6 text-xs text-[#5C4F46] font-sans-clean font-medium">
+                {rsvp.contact && (
+                  <a
+                    href={`tel:${rsvp.contact}`}
+                    className="flex items-center gap-2 hover:text-[#78223B] transition-colors"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-[#8E681C]" />
+                    <span>{rsvp.contact}</span>
+                  </a>
+                )}
+                {rsvp.email && (
+                  <a
+                    href={`mailto:${rsvp.email}`}
+                    className="flex items-center gap-2 hover:text-[#78223B] transition-colors"
+                  >
+                    <Mail className="w-3.5 h-3.5 text-[#8E681C]" />
+                    <span>{rsvp.email}</span>
+                  </a>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

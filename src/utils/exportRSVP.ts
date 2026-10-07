@@ -18,22 +18,27 @@ function escapeCSV(val: unknown): string {
   return `"${str}"`;
 }
 
+function getSideLabel(side?: "groom" | "bride"): string {
+  return side === "bride" ? "Bride's Side (Pazhayapurayil)" : "Groom's Side (Mulavanal)";
+}
+
 /**
  * Export all RSVP submissions
  */
 export function exportAllRSVPs(rsvps: RSVPData[]) {
   const headers = [
     "Primary Guest",
+    "Family Side",
     "Phone",
     "Email",
     "Attendance",
     "Total Guests",
     "Attending Names",
-    "9th Train Required",
-    "9th Boarding Station",
+    "9th Transport Required",
+    "9th Transport Type & Boarding",
     "9th Passengers",
-    "16th Train Required",
-    "16th Boarding Station",
+    "16th Transport Required",
+    "16th Transport Type & Boarding",
     "16th Passengers",
     "Special Requirements",
     "Submitted At",
@@ -42,31 +47,22 @@ export function exportAllRSVPs(rsvps: RSVPData[]) {
   const rows = rsvps.map((r) => {
     const t9 = r.transport?.["journey-9"];
     const t16 = r.transport?.["journey-16"];
+    const isBride = r.guestSide === "bride";
+    const modeDefault = isBride ? "Bus @ Pravattom" : "Train @ Kanhangad";
 
     return [
       escapeCSV(r.primaryGuestName),
+      escapeCSV(getSideLabel(r.guestSide)),
       escapeCSV(r.phone),
       escapeCSV(r.email || ""),
       escapeCSV(r.attending ? "Attending" : "Declined"),
       escapeCSV(r.guestCount),
       escapeCSV(r.guests?.map((g) => g.name).join(", ") || ""),
       escapeCSV(t9?.required ? "YES" : "NO"),
-      escapeCSV(
-        t9?.required
-          ? t9.boardingStation === "Other"
-            ? t9.customBoardingStation
-            : t9.boardingStation
-          : ""
-      ),
+      escapeCSV(t9?.required ? t9.boardingStation || modeDefault : ""),
       escapeCSV(t9?.required ? t9.passengerNames?.join(", ") || t9.passengerCount : ""),
       escapeCSV(t16?.required ? "YES" : "NO"),
-      escapeCSV(
-        t16?.required
-          ? t16.boardingStation === "Other"
-            ? t16.customBoardingStation
-            : t16.boardingStation
-          : ""
-      ),
+      escapeCSV(t16?.required ? t16.boardingStation || modeDefault : ""),
       escapeCSV(t16?.required ? t16.passengerNames?.join(", ") || t16.passengerCount : ""),
       escapeCSV(r.specialRequirements || ""),
       escapeCSV(typeof r.submittedAt === "string" ? r.submittedAt : ""),
@@ -85,16 +81,15 @@ export const exportAllRSVPsToCSV = exportAllRSVPs;
 export function exportFilteredRSVPsToCSV(rsvps: RSVPData[], filterTag = "Filtered") {
   const headers = [
     "Primary Guest",
+    "Family Side",
     "Phone",
     "Email",
     "Attendance",
     "Total Guests",
     "Attending Names",
-    "9th Train Required",
-    "9th Boarding Station",
+    "9th Transport",
     "9th Passengers",
-    "16th Train Required",
-    "16th Boarding Station",
+    "16th Transport",
     "16th Passengers",
     "Special Requirements",
     "Submitted At",
@@ -103,31 +98,20 @@ export function exportFilteredRSVPsToCSV(rsvps: RSVPData[], filterTag = "Filtere
   const rows = rsvps.map((r) => {
     const t9 = r.transport?.["journey-9"];
     const t16 = r.transport?.["journey-16"];
+    const isBride = r.guestSide === "bride";
+    const modeDefault = isBride ? "Bus @ Pravattom" : "Train @ Kanhangad";
 
     return [
       escapeCSV(r.primaryGuestName),
+      escapeCSV(getSideLabel(r.guestSide)),
       escapeCSV(r.phone),
       escapeCSV(r.email || ""),
       escapeCSV(r.attending ? "Attending" : "Declined"),
       escapeCSV(r.guestCount),
       escapeCSV(r.guests?.map((g) => g.name).join(", ") || ""),
-      escapeCSV(t9?.required ? "YES" : "NO"),
-      escapeCSV(
-        t9?.required
-          ? t9.boardingStation === "Other"
-            ? t9.customBoardingStation
-            : t9.boardingStation
-          : ""
-      ),
+      escapeCSV(t9?.required ? t9.boardingStation || modeDefault : "NO"),
       escapeCSV(t9?.required ? t9.passengerNames?.join(", ") || t9.passengerCount : ""),
-      escapeCSV(t16?.required ? "YES" : "NO"),
-      escapeCSV(
-        t16?.required
-          ? t16.boardingStation === "Other"
-            ? t16.customBoardingStation
-            : t16.boardingStation
-          : ""
-      ),
+      escapeCSV(t16?.required ? t16.boardingStation || modeDefault : "NO"),
       escapeCSV(t16?.required ? t16.passengerNames?.join(", ") || t16.passengerCount : ""),
       escapeCSV(r.specialRequirements || ""),
       escapeCSV(typeof r.submittedAt === "string" ? r.submittedAt : ""),
@@ -139,24 +123,28 @@ export function exportFilteredRSVPsToCSV(rsvps: RSVPData[], filterTag = "Filtere
 }
 
 /**
- * Export specific train journey passenger list
+ * Export dedicated passenger roster by family side and journey
  */
-export function exportJourneyTrainList(
+export function exportSideTransportRoster(
   rsvps: RSVPData[],
-  journeyId: string,
-  journeyLabel?: string
+  side: "groom" | "bride",
+  journeyId: string
 ) {
-  const label =
-    journeyLabel ||
-    weddingData.transport.journeys.find((j) => j.id === journeyId)?.label ||
-    journeyId;
+  const isGroom = side === "groom";
+  const modeName = isGroom ? "Train (Kanhangad)" : "Bus (Pravattom)";
+  const sideName = isGroom ? "Groom_Mulavanal" : "Bride_Pazhayapurayil";
+  const journeyConfig = weddingData.transport.journeys.find((j) => j.id === journeyId);
+  const journeyLabel = journeyConfig?.label || journeyId;
 
   const headers = [
     "No.",
     "Passenger Name",
     "Family / Primary Guest",
     "Phone",
-    "Boarding Station",
+    "Side",
+    "Transport Mode",
+    "Boarding Point",
+    "Journey Date & Event",
     "Special Requirements",
   ];
 
@@ -164,12 +152,13 @@ export function exportJourneyTrainList(
   let counter = 1;
 
   rsvps.forEach((r) => {
+    const guestSide = r.guestSide || "groom";
+    if (guestSide !== side) return;
+
     if (r.attending && r.transport?.[journeyId]?.required) {
       const t = r.transport[journeyId];
       const station =
-        t.boardingStation === "Other" && t.customBoardingStation
-          ? t.customBoardingStation
-          : t.boardingStation || "Unspecified";
+        t.boardingStation || (isGroom ? "Kanhangad (Train)" : "Pravattom (Bus)");
 
       if (t.passengerNames && t.passengerNames.length > 0) {
         t.passengerNames.forEach((pName) => {
@@ -179,7 +168,10 @@ export function exportJourneyTrainList(
               escapeCSV(pName),
               escapeCSV(r.primaryGuestName),
               escapeCSV(r.phone),
+              escapeCSV(getSideLabel(guestSide)),
+              escapeCSV(isGroom ? "TRAIN" : "BUS"),
               escapeCSV(station),
+              escapeCSV(journeyLabel),
               escapeCSV(r.specialRequirements || ""),
             ].join(",")
           );
@@ -191,7 +183,10 @@ export function exportJourneyTrainList(
             escapeCSV(r.primaryGuestName),
             escapeCSV(r.primaryGuestName),
             escapeCSV(r.phone),
+            escapeCSV(getSideLabel(guestSide)),
+            escapeCSV(isGroom ? "TRAIN" : "BUS"),
             escapeCSV(station),
+            escapeCSV(journeyLabel),
             escapeCSV(r.specialRequirements || ""),
           ].join(",")
         );
@@ -200,8 +195,17 @@ export function exportJourneyTrainList(
   });
 
   const csv = [headers.join(","), ...rows].join("\n");
-  const cleanLabel = label.replace(/[^a-zA-Z0-9]/g, "_");
-  downloadCSV(csv, `Train_Passengers_${cleanLabel}_${new Date().toISOString().slice(0, 10)}.csv`);
+  const cleanJourney = journeyLabel.replace(/[^a-zA-Z0-9]/g, "_");
+  downloadCSV(
+    csv,
+    `${sideName}_${isGroom ? "Train_Kanhangad" : "Bus_Pravattom"}_${cleanJourney}_${new Date().toISOString().slice(0, 10)}.csv`
+  );
 }
 
-export const exportTrainRosterToCSV = exportJourneyTrainList;
+export function exportTrainRosterToCSV(rsvps: RSVPData[], journeyId: string) {
+  exportSideTransportRoster(rsvps, "groom", journeyId);
+}
+
+export function exportBusRosterToCSV(rsvps: RSVPData[], journeyId: string) {
+  exportSideTransportRoster(rsvps, "bride", journeyId);
+}

@@ -74,9 +74,20 @@ export default function RSVPDetailsModal({
                 {rsvp.attending ? "Attending" : "Declined"}
               </span>
             </div>
-            <p className="text-xs text-[#7A6C60] font-sans">
-              RSVP Record ID: <span className="font-mono text-[11px]">{rsvp.id}</span>
-            </p>
+            <div className="flex items-center gap-2 mt-1">
+              <span
+                className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide ${
+                  rsvp.guestSide === "bride"
+                    ? "bg-[#FBEAEF] text-[#78223B] border border-[#F2D4DA]"
+                    : "bg-[#EBF3FB] text-[#1E429F] border border-[#C3D9EE]"
+                }`}
+              >
+                <span>{rsvp.guestSide === "bride" ? "👰 Bride's Side (Pazhayapurayil)" : "🤵 Groom's Side (Mulavanal)"}</span>
+              </span>
+              <span className="text-xs text-[#7A6C60] font-sans">
+                • RSVP Record: <span className="font-mono text-[11px]">{rsvp.id}</span>
+              </span>
+            </div>
           </div>
 
           <button
@@ -161,42 +172,53 @@ export default function RSVPDetailsModal({
           </div>
         )}
 
-        {/* Train Transportation Section */}
+        {/* Transportation Section (Train for Groom / Bus for Bride) */}
         {rsvp.attending && (
           <div className="mb-6">
             <h4 className="text-xs font-bold uppercase tracking-wider text-[#5C4F46] flex items-center gap-1.5 mb-3">
               <Train className="w-4 h-4 text-[#78223B]" />
-              <span>Train Transportation Details</span>
+              <span>
+                {rsvp.guestSide === "bride"
+                  ? "Chartered Bus Transportation (Bride's Side • Pravattom)"
+                  : "Train Transportation (Groom's Side • Kanhangad)"}
+              </span>
             </h4>
 
             <div className="space-y-3">
               {journeys.map((j) => {
                 const selection = rsvp.transport?.[j.id];
                 const isRequired = selection?.required;
+                const isBus = selection?.transportMode === "bus" || rsvp.guestSide === "bride";
+                const modeIcon = isBus ? "🚌" : "🚆";
+                const modeLabel = isBus ? "Chartered Bus" : "Train";
                 const station =
                   selection?.boardingStation === "Other" &&
                   selection?.customBoardingStation
                     ? `${selection.customBoardingStation} (Other)`
-                    : selection?.boardingStation || "N/A";
+                    : selection?.boardingStation || (isBus ? "Pravattom (Bus Pickup)" : "Kanhangad (Railway Station)");
 
                 return (
                   <div
                     key={j.id}
                     className={`p-4 rounded-xl border transition-all ${
                       isRequired
-                        ? "bg-[#F7FAFC] border-[#C3D9EE]"
+                        ? isBus
+                          ? "bg-[#FEF6F7] border-[#F5C2C7]"
+                          : "bg-[#F7FAFC] border-[#C3D9EE]"
                         : "bg-[#FAFAFA] border-[#E8E8E8]"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
                         <span className="text-xs font-bold font-serif text-[#211B17]">
-                          🚆 {j.label} Journey ({j.date})
+                          {modeIcon} {j.label} {modeLabel} ({j.date})
                         </span>
                         <span
                           className={`px-2 py-0.5 rounded text-[10px] font-sans font-bold uppercase ${
                             isRequired
-                              ? "bg-[#E1EFFE] text-[#1E429F]"
+                              ? isBus
+                                ? "bg-[#FBEAEF] text-[#78223B]"
+                                : "bg-[#E1EFFE] text-[#1E429F]"
                               : "bg-[#F3F4F6] text-[#6B7280]"
                           }`}
                         >
@@ -205,7 +227,11 @@ export default function RSVPDetailsModal({
                       </div>
 
                       {isRequired && (
-                        <span className="text-xs font-bold text-[#1E429F]">
+                        <span
+                          className={`text-xs font-bold ${
+                            isBus ? "text-[#78223B]" : "text-[#1E429F]"
+                          }`}
+                        >
                           {selection?.passengerCount || 0} Passengers
                         </span>
                       )}

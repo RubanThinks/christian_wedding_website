@@ -40,11 +40,11 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://elizabethanddaniel.com"),
-  title: `${weddingData.couple.bride.name} & ${weddingData.couple.groom.name} — Wedding Invitation`,
-  description: `Celebrate the holy covenant of marriage between ${weddingData.couple.bride.name} and ${weddingData.couple.groom.name} on ${weddingData.wedding.date}.`,
+  metadataBase: new URL("https://mishelandsara.com"),
+  title: `${weddingData.couple.groom.name} & ${weddingData.couple.bride.name} — Wedding Invitation`,
+  description: `Celebrate the holy covenant of marriage between ${weddingData.couple.groom.name} and ${weddingData.couple.bride.name} on ${weddingData.wedding.date}.`,
   openGraph: {
-    title: `${weddingData.couple.bride.name} & ${weddingData.couple.groom.name} — Holy Matrimony`,
+    title: `${weddingData.couple.groom.name} & ${weddingData.couple.bride.name} — Holy Matrimony`,
     description: `We invite you to celebrate the beginning of our life together under the blessing of God.`,
     images: [
       {

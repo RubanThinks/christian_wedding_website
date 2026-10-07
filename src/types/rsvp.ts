@@ -13,13 +13,25 @@ export interface JourneyConfig {
   enabled: boolean;
 }
 
+export interface SideTransportInfo {
+  sideName: string;
+  mode: "train" | "bus";
+  modeLabel: string;
+  defaultBoarding: string;
+  boardingStations?: string[];
+}
+
 export interface TransportConfig {
   enabled: boolean;
   maxGuests: number;
   allowGuestCategory: boolean;
+  groomTransport?: SideTransportInfo;
+  brideTransport?: SideTransportInfo;
   journeys: JourneyConfig[];
   boardingStations: string[];
 }
+
+export type GuestSide = "groom" | "bride";
 
 export interface JourneyTransportSelection {
   required: boolean;
@@ -28,6 +40,7 @@ export interface JourneyTransportSelection {
   passengerCount: number;
   boardingStation: string;
   customBoardingStation?: string;
+  transportMode?: "train" | "bus";
 }
 
 export interface RSVPData {
@@ -35,6 +48,7 @@ export interface RSVPData {
   primaryGuestName: string;
   phone: string;
   email?: string;
+  guestSide?: GuestSide; // "groom" (Mulavanal) or "bride" (Pazhayapurayil)
   attending: boolean;
   guestCount: number;
   guests: GuestItem[];
@@ -46,22 +60,34 @@ export interface RSVPData {
   updatedAt?: string | number | { seconds: number; nanoseconds: number };
 }
 
+export interface PassengerRosterItem {
+  passengerName: string;
+  primaryGuest: string;
+  phone: string;
+  guestSide: GuestSide;
+  transportMode: "train" | "bus";
+  boardingStation: string;
+  journeyId: string;
+  journeyLabel: string;
+  specialRequirements?: string;
+}
+
 export interface RSVPStats {
   totalResponses: number;
   attendingCount: number;
   notAttendingCount: number;
   totalGuests: number;
+  groomSideGuests: number;
+  brideSideGuests: number;
+  totalTrainPassengers: number; // Groom side (Kanhangad)
+  totalBusPassengers: number;   // Bride side (Pravattom)
   journeyStats: {
     [journeyId: string]: {
       totalPassengers: number;
+      groomPassengers: number;
+      bridePassengers: number;
       byStation: { [station: string]: number };
-      passengers: {
-        passengerName: string;
-        primaryGuest: string;
-        phone: string;
-        boardingStation: string;
-        specialRequirements?: string;
-      }[];
+      passengers: PassengerRosterItem[];
     };
   };
 }

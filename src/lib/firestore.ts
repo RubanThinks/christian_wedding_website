@@ -237,6 +237,10 @@ export function computeRSVPStats(rsvps: RSVPData[]): RSVPStats {
   let attendingCount = 0;
   let notAttendingCount = 0;
   let totalGuests = 0;
+  let groomSideGuests = 0;
+  let brideSideGuests = 0;
+  let totalTrainPassengers = 0;
+  let totalBusPassengers = 0;
 
   const journeyStats: RSVPStats["journeyStats"] = {};
   const configuredJourneys = weddingData.transport.journeys;
@@ -244,39 +248,65 @@ export function computeRSVPStats(rsvps: RSVPData[]): RSVPStats {
   configuredJourneys.forEach((j) => {
     journeyStats[j.id] = {
       totalPassengers: 0,
+      groomPassengers: 0,
+      bridePassengers: 0,
       byStation: {},
       passengers: [],
     };
   });
 
   rsvps.forEach((item) => {
+    const side = item.guestSide || "groom"; // default to groom if not set
+    const guestHeadcount = item.guestCount || 0;
+
     if (item.attending) {
       attendingCount++;
-      totalGuests += item.guestCount || 0;
+      totalGuests += guestHeadcount;
+
+      if (side === "bride") {
+        brideSideGuests += guestHeadcount;
+      } else {
+        groomSideGuests += guestHeadcount;
+      }
 
       // Transport breakdown
       if (item.transport) {
         Object.entries(item.transport).forEach(([jId, t]) => {
           if (t && t.required && journeyStats[jId]) {
             const count = t.passengerCount || 0;
-            journeyStats[jId].totalPassengers += count;
+            const journeyConfig = configuredJourneys.find((j) => j.id === jId);
+            const journeyLabel = journeyConfig?.label || jId;
 
+            // Determine transport mode and default station based on side
+            const mode = t.transportMode || (side === "bride" ? "bus" : "train");
             const station =
-              t.boardingStation === "Other" && t.customBoardingStation
-                ? t.customBoardingStation
-                : t.boardingStation || "Unspecified";
+              t.boardingStation ||
+              (side === "bride" ? "Pravattom (Bus)" : "Kanhangad (Train)");
+
+            journeyStats[jId].totalPassengers += count;
+            if (side === "bride") {
+              journeyStats[jId].bridePassengers += count;
+              totalBusPassengers += count;
+            } else {
+              journeyStats[jId].groomPassengers += count;
+              totalTrainPassengers += count;
+            }
 
             journeyStats[jId].byStation[station] =
               (journeyStats[jId].byStation[station] || 0) + count;
 
-            // Collect passenger entries
+            // Collect individual passenger roster entries
             if (t.passengerNames && t.passengerNames.length > 0) {
               t.passengerNames.forEach((pName) => {
                 journeyStats[jId].passengers.push({
                   passengerName: pName,
                   primaryGuest: item.primaryGuestName,
                   phone: item.phone,
+                  guestSide: side,
+                  transportMode: mode,
                   boardingStation: station,
+                  journeyId: jId,
+                  journeyLabel,
                   specialRequirements: item.specialRequirements,
                 });
               });
@@ -285,7 +315,11 @@ export function computeRSVPStats(rsvps: RSVPData[]): RSVPStats {
                 passengerName: item.primaryGuestName,
                 primaryGuest: item.primaryGuestName,
                 phone: item.phone,
+                guestSide: side,
+                transportMode: mode,
                 boardingStation: station,
+                journeyId: jId,
+                journeyLabel,
                 specialRequirements: item.specialRequirements,
               });
             }
@@ -302,6 +336,10 @@ export function computeRSVPStats(rsvps: RSVPData[]): RSVPStats {
     attendingCount,
     notAttendingCount,
     totalGuests,
+    groomSideGuests,
+    brideSideGuests,
+    totalTrainPassengers,
+    totalBusPassengers,
     journeyStats,
   };
 }

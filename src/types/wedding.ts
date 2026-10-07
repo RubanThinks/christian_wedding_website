@@ -48,7 +48,7 @@ export interface ScriptureConfig {
 
 export interface RsvpConfig {
   deadline: string;
-  contact: string;
+  contact?: string;
   email?: string;
   url?: string;
   maxGuests?: number;

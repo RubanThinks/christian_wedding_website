@@ -373,7 +373,7 @@ END:VCALENDAR`;
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", "Mishel_and_Elizabeth_Wedding_2027.ics");
+    link.setAttribute("download", `${couple.groom.firstName}_and_${couple.bride.firstName}_Wedding_2027.ics`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

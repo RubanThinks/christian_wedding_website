@@ -2,7 +2,7 @@ import { WeddingConfig } from "../src/types/wedding";
 import { defaultScriptures } from "./scriptures";
 
 /**
- * WEDDING CONFIGURATION — MISHEL MATHEW & ELIZABETH GRACE
+ * WEDDING CONFIGURATION — MISHEL MATHEW & SARA JOSE
  * 
  * Knanaya Catholic Matrimony Celebrations
  * Engagement: 9 January 2027 @ Neendoor
@@ -11,13 +11,13 @@ import { defaultScriptures } from "./scriptures";
 export const weddingData: WeddingConfig = {
   couple: {
     bride: {
-      name: "Elizabeth Grace",
-      firstName: "Elizabeth",
-      houseName: "Thekkeparambil",
+      name: "Sara Jose",
+      firstName: "Sara",
+      houseName: "Pazhayapurayil",
       portrait: "/images/couple/bride.webp",
       parents: {
-        father: "Michael Thomas",
-        mother: "Sarah Thomas"
+        father: "Jose Pazhayapurayil Kurian",
+        mother: "Laiby Jose"
       },
       quote: "My beloved is mine, and I am his."
     },
@@ -80,8 +80,6 @@ export const weddingData: WeddingConfig = {
 
   rsvp: {
     deadline: "25 December 2026",
-    contact: "+91 98470 00000",
-    email: "mulavanal.wedding@gmail.com",
     allowGuestCount: true,
     requireTrainFacility: true
   },
@@ -90,6 +88,20 @@ export const weddingData: WeddingConfig = {
     enabled: true,
     maxGuests: 10,
     allowGuestCategory: false,
+    groomTransport: {
+      sideName: "Groom's Side (Mulavanal)",
+      mode: "train",
+      modeLabel: "Train Transport",
+      defaultBoarding: "Kanhangad (Railway Station)",
+      boardingStations: ["Kanhangad (Railway Station)", "Other"],
+    },
+    brideTransport: {
+      sideName: "Bride's Side (Pazhayapurayil)",
+      mode: "bus",
+      modeLabel: "Bus Transport",
+      defaultBoarding: "Pravattom (Bus Pickup)",
+      boardingStations: ["Pravattom (Bus Pickup)", "Other"],
+    },
     journeys: [
       {
         id: "journey-9",
@@ -111,21 +123,8 @@ export const weddingData: WeddingConfig = {
       },
     ],
     boardingStations: [
-      "Kottayam",
-      "Ernakulam",
-      "Kozhikode",
-      "Kannur",
       "Kanhangad",
-      "Kasaragod",
-      "Trivandrum",
-      "Thrissur",
-      "Palakkad",
-      "Chennai",
-      "Salem",
-      "Erode",
-      "Coimbatore",
-      "Bangalore",
-      "Other",
+      "Pravattom",
     ],
   },
 
@@ -137,7 +136,7 @@ export const weddingData: WeddingConfig = {
 
   editorial: {
     invitationPreamble:
-      "Together with their families,\nElizabeth Grace\n&\nMishel Mathew (Mulavanal)\ninvite you to celebrate the beginning of their life together under the blessing of God.",
+      "Together with their families,\nSara Jose (Pazhayapurayil)\n&\nMishel Mathew (Mulavanal)\ninvite you to celebrate the beginning of their life together under the blessing of God.",
     covenantMetaphor: "A cord of three strands is not quickly broken.",
     aisleQuote: "Until we stand before God, and promise forever.",
     vowsQuote:
@@ -164,6 +163,6 @@ export const weddingData: WeddingConfig = {
 
   optional: {
     parkingInfo: "Parking facilities available at St. Michael's Neendoor and Holy Family Parish Hall Rajapuram.",
-    weddingHashtag: "#MishelWedsElizabeth"
+    weddingHashtag: "#MishelWedsSara"
   }
 };
