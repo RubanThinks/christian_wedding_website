@@ -74,7 +74,7 @@ export default function LocationExperience() {
         <div className="mb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF0DC] border border-[#D4A33B]/40 text-[#8E681C] text-[11px] uppercase tracking-[0.3em] font-sans-clean font-semibold mb-2">
             <span>✝</span>
-            <span>Chapter VI • Journey &amp; Destinations</span>
+            <span>Chapter IV • Journey &amp; Destinations</span>
             <span>✝</span>
           </div>
           <h2 className="font-serif-luxury text-4xl sm:text-5xl md:text-6xl text-[#211B17] font-semibold tracking-wide">

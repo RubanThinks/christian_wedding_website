@@ -3,10 +3,8 @@ import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import NavigationBar from "@/components/NavigationBar";
 import SoundtrackToggle from "@/components/SoundtrackToggle";
 import HeroVideoIntro from "@/components/HeroVideoIntro";
-import CoupleReveal from "@/components/CoupleReveal";
 import InvitationEditorial from "@/components/InvitationEditorial";
 import RingDateReveal from "@/components/RingDateReveal";
-import CovenantStrands from "@/components/CovenantStrands";
 import ChurchCeremony from "@/components/ChurchCeremony";
 import ReceptionCelebration from "@/components/ReceptionCelebration";
 import LocationExperience from "@/components/LocationExperience";
@@ -24,37 +22,31 @@ export default function WeddingInvitationPage() {
         {/* Ambient soundtrack controller */}
         <SoundtrackToggle />
 
-        {/* Scene 01: Cinematic Intro Film / Sanctuary Hero */}
+        {/* Scene 01: Sanctuary Hero & Cinematic Opening */}
         <HeroVideoIntro />
 
-        {/* Scene 02: Chapter I — The Couple Editorial Composition */}
-        <CoupleReveal />
-
-        {/* Scene 03: Chapter II — The Formal Physical Paper Invitation */}
+        {/* Scene 02: Chapter I — The Formal Paper Invitation (With Parents, House Names & Couple Details) */}
         <InvitationEditorial />
 
-        {/* Scene 04: Save The Date — Signature Ring Date Reveal */}
+        {/* Scene 03: Save Our Sacred Date — Interactive Scratch Card Reveal */}
         <RingDateReveal />
 
-        {/* Scene 05: Chapter III — The Sacred Covenant (Ecclesiastes 4:12) */}
-        <CovenantStrands />
-
-        {/* Scene 06: Chapter IV — The Holy Matrimony Church Ceremony */}
+        {/* Scene 04: Chapter II — The Holy Matrimony Church Ceremony */}
         <ChurchCeremony />
 
-        {/* Scene 07: Chapter V — The Wedding Reception Celebration */}
+        {/* Scene 05: Chapter III — The Wedding Reception & Banquet Celebration */}
         <ReceptionCelebration />
 
-        {/* Scene 08: Chapter VI — The Gathering Places & Location Experience */}
+        {/* Scene 06: Chapter IV — The Gathering Places & Location Coordinates */}
         <LocationExperience />
 
-        {/* Optional Client Provisions (Dress Code, Accommodation, Notes) */}
+        {/* Scene 07: Guest Provisions (Dress Code, Accommodation, Notes) */}
         <OptionalDetailsSection />
 
-        {/* Scene 09: RSVP Tactile Experience & Train Transportation */}
+        {/* Scene 08: RSVP Tactile Experience & Train Transportation System */}
         <RsvpSection />
 
-        {/* Scene 10: Final Blessing & Sacred Twilight Dim */}
+        {/* Scene 09: Final Blessing & Sacred Twilight Dim */}
         <FinalBlessing />
       </main>
     </SmoothScrollProvider>

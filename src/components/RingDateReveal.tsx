@@ -58,16 +58,14 @@ export default function RingDateReveal() {
 
   // Glitter particle system
   const spawnGlitter = (x: number, y: number) => {
-    const colors = ["#FFE699", "#D4A33B", "#FAF7F2", "#E8BE5D", "#FFF3D1"];
-    for (let i = 0; i < 7; i++) {
-      const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 3 + 1.5;
+    const colors = ["#F2DC9B", "#D4A33B", "#FFFFFF", "#C59A45", "#FFE8B0"];
+    for (let i = 0; i < 5; i++) {
       particlesRef.current.push({
-        x,
-        y,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed - 1,
-        size: Math.random() * 3.5 + 1.5,
+        x: x + (Math.random() * 20 - 10),
+        y: y + (Math.random() * 20 - 10),
+        vx: (Math.random() - 0.5) * 3,
+        vy: (Math.random() - 0.5) * 3 - 0.5,
+        size: Math.random() * 3 + 1,
         alpha: 1,
         color: colors[Math.floor(Math.random() * colors.length)],
       });
@@ -80,53 +78,67 @@ export default function RingDateReveal() {
     const ctx = pCanvas.getContext("2d");
     if (!ctx) return;
 
+    let active = true;
+
     const renderParticles = () => {
+      if (!active) return;
       ctx.clearRect(0, 0, pCanvas.width, pCanvas.height);
+
       for (let i = particlesRef.current.length - 1; i >= 0; i--) {
         const p = particlesRef.current[i];
         p.x += p.vx;
         p.y += p.vy;
-        p.vy += 0.08; // gravity
         p.alpha -= 0.025;
-        p.size *= 0.97;
 
-        if (p.alpha <= 0 || p.size <= 0.5) {
+        if (p.alpha <= 0) {
           particlesRef.current.splice(i, 1);
-          continue;
+        } else {
+          ctx.save();
+          ctx.globalAlpha = p.alpha;
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
         }
-
-        ctx.save();
-        ctx.globalAlpha = p.alpha;
-        ctx.fillStyle = p.color;
-        ctx.shadowColor = "#D4A33B";
-        ctx.shadowBlur = 6;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
       }
+
       animFrameRef.current = requestAnimationFrame(renderParticles);
     };
 
     renderParticles();
+
     return () => {
+      active = false;
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     };
   }, []);
 
-  // Initialize Scratch Canvas with Luxury Gold Glitter Foil
-  const initCanvas = useCallback(() => {
+  // Initialize Canvas Scratch Surface
+  const initFoil = useCallback(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    const container = cardContainerRef.current;
+    if (!canvas || !container) return;
 
-    const rect = canvas.getBoundingClientRect();
+    const rect = container.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return;
+
     const dpr = window.devicePixelRatio || 1;
     canvas.width = rect.width * dpr;
     canvas.height = rect.height * dpr;
-    ctx.scale(dpr, dpr);
+    canvas.style.width = `${rect.width}px`;
+    canvas.style.height = `${rect.height}px`;
 
+    const pCanvas = particlesCanvasRef.current;
+    if (pCanvas) {
+      pCanvas.width = rect.width;
+      pCanvas.height = rect.height;
+    }
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    ctx.scale(dpr, dpr);
     const width = rect.width;
     const height = rect.height;
 
@@ -144,8 +156,8 @@ export default function RingDateReveal() {
     ctx.fillRect(0, 0, width, height);
 
     // Micro glitter speckles simulation
-    ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
-    for (let i = 0; i < 400; i++) {
+    ctx.fillStyle = "rgba(255, 255, 255, 0.45)";
+    for (let i = 0; i < 280; i++) {
       const sx = Math.random() * width;
       const sy = Math.random() * height;
       const sRadius = Math.random() * 1.5 + 0.5;
@@ -154,86 +166,75 @@ export default function RingDateReveal() {
       ctx.fill();
     }
 
-    // Gold sparkles/stars
-    ctx.fillStyle = "rgba(255, 248, 220, 0.75)";
-    for (let i = 0; i < 35; i++) {
-      const sx = Math.random() * width;
-      const sy = Math.random() * height;
-      ctx.fillRect(sx, sy, 2, 2);
-    }
-
     // Outer refined border on foil
     ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
     ctx.lineWidth = 1.5;
-    ctx.strokeRect(12, 12, width - 24, height - 24);
+    ctx.strokeRect(10, 10, width - 20, height - 20);
 
     // Inner dashed border
     ctx.strokeStyle = "rgba(110, 75, 18, 0.4)";
     ctx.setLineDash([5, 4]);
-    ctx.strokeRect(16, 16, width - 32, height - 32);
+    ctx.strokeRect(14, 14, width - 28, height - 28);
     ctx.setLineDash([]);
 
-    // Call-to-action text on scratch foil
-    ctx.fillStyle = "#382307";
+    // Lettering on Foil
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    // Rings Icon / Cross
-    ctx.font = "bold 20px serif";
+    // Sacred Cross
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "bold 22px serif";
     ctx.fillText("✝", width / 2, height / 2 - 42);
 
-    ctx.font = "600 13px 'Montserrat', sans-serif";
-    ctx.letterSpacing = "3px";
-    ctx.fillText("SCRATCH WITH LOVE", width / 2, height / 2 - 12);
+    // Headline
+    ctx.fillStyle = "#5C3A0A";
+    ctx.font = "bold 13px sans-serif";
+    ctx.fillText("SCRATCH TO REVEAL DATE", width / 2, height / 2 - 12);
 
-    ctx.font = "italic 16px 'Cormorant Garamond', Georgia, serif";
-    ctx.fillStyle = "#50340B";
-    ctx.fillText("to discover our sacred wedding date", width / 2, height / 2 + 15);
+    ctx.fillStyle = "rgba(92, 58, 10, 0.85)";
+    ctx.font = "italic 11px serif";
+    ctx.fillText("Swipe gently with finger or mouse", width / 2, height / 2 + 12);
 
-    ctx.font = "bold 11px 'Montserrat', sans-serif";
-    ctx.fillStyle = "#412A0A";
-    ctx.fillText("✨ DRAG FINGER OR MOUSE ✨", width / 2, height / 2 + 45);
+    // Little Gold Icon
+    ctx.font = "14px sans-serif";
+    ctx.fillText("✨ ✨ ✨", width / 2, height / 2 + 38);
   }, []);
 
   useEffect(() => {
-    initCanvas();
+    initFoil();
     const handleResize = () => {
-      if (!isScratched) initCanvas();
+      if (!isScratched) initFoil();
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [initCanvas, isScratched]);
+  }, [initFoil, isScratched]);
 
-  // Sync particle canvas size
-  useEffect(() => {
-    const pCanvas = particlesCanvasRef.current;
-    const card = cardContainerRef.current;
-    if (!pCanvas || !card) return;
-    pCanvas.width = card.offsetWidth;
-    pCanvas.height = card.offsetHeight;
-  }, []);
-
-  // Check scratch completion
+  // Check scratch percentage
   const checkScratchPercentage = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas || isScratched) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const dpr = window.devicePixelRatio || 1;
+    const sampleWidth = Math.floor(canvas.width / 4);
+    const sampleHeight = Math.floor(canvas.height / 4);
+
     try {
       const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       const data = imgData.data;
-      let clearPixels = 0;
+      let transparentPixels = 0;
       const totalPixels = data.length / 4;
-      const sampleStep = 16; // performance optimization
+      const step = 32;
 
-      for (let i = 3; i < data.length; i += 4 * sampleStep) {
+      for (let i = 3; i < data.length; i += 4 * step) {
         if (data[i] < 60) {
-          clearPixels++;
+          transparentPixels += step;
         }
       }
 
-      const percent = Math.round((clearPixels / (totalPixels / sampleStep)) * 100);
+      const ratio = transparentPixels / totalPixels;
+      const percent = Math.min(100, Math.round(ratio * 100));
       setScratchPercent(percent);
 
       if (percent >= 38) {
@@ -246,12 +247,13 @@ export default function RingDateReveal() {
 
   const revealComplete = () => {
     setIsScratched(true);
+    setScratchPercent(100);
     setSliderValue(100);
-    // Celebratory confetti burst!
+
     try {
       confetti({
-        particleCount: 100,
-        spread: 75,
+        particleCount: 90,
+        spread: 70,
         origin: { y: 0.55 },
         colors: ["#D4A33B", "#F5E2A8", "#FFFFFF", "#78223B", "#E5B958"],
       });
@@ -274,8 +276,7 @@ export default function RingDateReveal() {
     ctx.save();
     ctx.globalCompositeOperation = "destination-out";
     ctx.beginPath();
-    // Feathered brush stroke
-    const brushRadius = 32;
+    const brushRadius = 26;
     const radial = ctx.createRadialGradient(x, y, 0, x, y, brushRadius);
     radial.addColorStop(0, "rgba(0, 0, 0, 1)");
     radial.addColorStop(0.7, "rgba(0, 0, 0, 0.85)");
@@ -289,7 +290,45 @@ export default function RingDateReveal() {
     checkScratchPercentage();
   };
 
-  // Mouse events
+  // Dedicated Native Non-Passive Touch Listeners to prevent screen scrolling while scratching
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || isScratched) return;
+
+    const handleTouchStartNative = (e: TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setIsDrawing(true);
+      if (e.touches[0]) {
+        scratch(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    };
+
+    const handleTouchMoveNative = (e: TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.touches[0]) {
+        scratch(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    };
+
+    const handleTouchEndNative = (e: TouchEvent) => {
+      e.preventDefault();
+      setIsDrawing(false);
+    };
+
+    canvas.addEventListener("touchstart", handleTouchStartNative, { passive: false });
+    canvas.addEventListener("touchmove", handleTouchMoveNative, { passive: false });
+    canvas.addEventListener("touchend", handleTouchEndNative, { passive: false });
+
+    return () => {
+      canvas.removeEventListener("touchstart", handleTouchStartNative);
+      canvas.removeEventListener("touchmove", handleTouchMoveNative);
+      canvas.removeEventListener("touchend", handleTouchEndNative);
+    };
+  }, [isScratched]);
+
+  // Desktop Mouse handlers
   const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
     setIsDrawing(true);
     scratch(e.clientX, e.clientY);
@@ -301,21 +340,6 @@ export default function RingDateReveal() {
   };
 
   const handleMouseUp = () => setIsDrawing(false);
-
-  // Touch events
-  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
-    setIsDrawing(true);
-    const touch = e.touches[0];
-    scratch(touch.clientX, touch.clientY);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
-    if (!isDrawing) return;
-    const touch = e.touches[0];
-    scratch(touch.clientX, touch.clientY);
-  };
-
-  const handleTouchEnd = () => setIsDrawing(false);
 
   // Slider change
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -336,10 +360,10 @@ METHOD:PUBLISH
 BEGIN:VEVENT
 UID:wedding-${couple.bride.firstName}-${couple.groom.firstName}-2027
 DTSTAMP:20261001T000000Z
-DTSTART:20270620T163000
-DTEND:20270620T233000
-SUMMARY:${couple.bride.name} & ${couple.groom.name}'s Wedding Ceremony
-DESCRIPTION:Holy Matrimony of ${couple.bride.name} and ${couple.groom.name}. Followed by dinner celebration at ${weddingData.reception.venue}.
+DTSTART:20270116T103000
+DTEND:20270116T170000
+SUMMARY:${couple.groom.name} & ${couple.bride.name}'s Wedding Ceremony
+DESCRIPTION:Holy Matrimony of ${couple.groom.name} and ${couple.bride.name}. Followed by banquet reception at ${weddingData.reception.venue}.
 LOCATION:${ceremony.venue}, ${ceremony.address}
 STATUS:CONFIRMED
 END:VEVENT
@@ -349,185 +373,173 @@ END:VCALENDAR`;
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute(
-      "download",
-      `${couple.bride.firstName}_and_${couple.groom.firstName}_Wedding.ics`
-    );
+    link.setAttribute("download", "Mishel_and_Elizabeth_Wedding_2027.ics");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     setAddedToCalendar(true);
-    setTimeout(() => setAddedToCalendar(false), 3000);
   };
 
   return (
     <section
       id="scene-date"
-      className="relative min-h-screen py-24 md:py-36 px-4 sm:px-6 bg-[#FCFAF6] flex flex-col items-center justify-center overflow-hidden"
+      className="relative min-h-[85vh] py-16 md:py-24 px-4 sm:px-6 bg-[#FCFAF6] flex items-center justify-center overflow-hidden"
     >
-      {/* Light radiant ambient sunbeam background */}
-      <div className="absolute inset-0 z-0 sunbeam-light pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-[#FFF4D6]/50 filter blur-[120px] pointer-events-none" />
+      {/* Background soft sunburst & linen glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#FFF4D6]/50 filter blur-[100px] pointer-events-none" />
 
-      <div className="relative z-10 max-w-4xl mx-auto w-full text-center flex flex-col items-center">
+      <div className="relative z-10 max-w-2xl mx-auto w-full text-center flex flex-col items-center">
         {/* Section Prelude */}
-        <div className="mb-8">
-          <div className="flex items-center justify-center gap-2 mb-2">
+        <div className="mb-6">
+          <div className="flex items-center justify-center gap-2 mb-1.5">
             <span className="text-xs text-[#D4A33B]">✝</span>
-            <span className="text-[11px] md:text-xs uppercase tracking-[0.35em] text-[#C59A45] font-sans-clean font-semibold">
-              The Moment of Covenant
+            <span className="text-[11px] uppercase tracking-[0.35em] text-[#C59A45] font-sans-clean font-semibold">
+              The Sacred Date
             </span>
             <span className="text-xs text-[#D4A33B]">✝</span>
           </div>
-          <h2 className="font-serif-luxury text-3xl sm:text-5xl md:text-6xl text-[#211B17] font-normal tracking-wide">
-            Save Our Sacred Date
+          <h2 className="font-serif-luxury text-2xl sm:text-4xl md:text-5xl text-[#211B17] font-normal tracking-wide">
+            Save Our Date
           </h2>
-          <p className="font-serif-luxury italic text-sm sm:text-base text-[#65584F] mt-2 max-w-lg mx-auto">
-            Interact below with the gold foil scratch card to reveal the day we
-            stand before God.
+          <p className="font-serif-luxury italic text-xs sm:text-sm text-[#65584F] mt-1 max-w-md mx-auto">
+            Swipe or scratch the gold foil card below to reveal our wedding date.
           </p>
         </div>
 
-        {/* Scratch Card Outer Enclosure */}
+        {/* Compact, Sleek Scratch Card Outer Enclosure */}
         <div
           ref={cardContainerRef}
-          className="relative w-full max-w-lg sm:max-w-xl min-h-[460px] sm:min-h-[500px] bg-white rounded-xl gold-card-shadow p-6 sm:p-8 flex flex-col items-center justify-center border-2 border-[#D4A33B]/40 transition-all overflow-hidden"
+          className="relative w-full max-w-sm sm:max-w-md min-h-[340px] sm:min-h-[370px] bg-white rounded-xl shadow-xl p-5 sm:p-6 flex flex-col items-center justify-center border-2 border-[#D4A33B]/40 transition-all overflow-hidden touch-none select-none"
         >
-          {/* UNDERNEATH LAYER: The BOLD, VIBRANT, STYLISH UNFORGETTABLE REVEALED DATE */}
-          <div className="w-full flex flex-col items-center justify-center text-center py-4 select-none">
+          {/* UNDERNEATH LAYER: The Revealed Date */}
+          <div className="w-full flex flex-col items-center justify-center text-center py-2 select-none">
             {/* Cross & Holy Title */}
-            <div className="flex items-center gap-2 text-[#C59A45] mb-2">
-              <span className="w-8 h-[1px] bg-[#C59A45]/40" />
+            <div className="flex items-center gap-2 text-[#C59A45] mb-1">
+              <span className="w-6 h-[1px] bg-[#C59A45]/40" />
               <span className="text-xs">✝</span>
-              <span className="text-[11px] uppercase tracking-[0.3em] font-sans-clean font-bold text-[#8E681C]">
+              <span className="text-[10px] uppercase tracking-[0.3em] font-sans-clean font-bold text-[#8E681C]">
                 HOLY MATRIMONY
               </span>
               <span className="text-xs">✝</span>
-              <span className="w-8 h-[1px] bg-[#C59A45]/40" />
+              <span className="w-6 h-[1px] bg-[#C59A45]/40" />
             </div>
 
-            {/* BOLD DAY OF WEEK */}
-            <p className="text-sm sm:text-base uppercase tracking-[0.35em] font-sans-clean font-extrabold text-[#78223B]">
+            {/* Day of Week */}
+            <p className="text-xs sm:text-sm uppercase tracking-[0.3em] font-sans-clean font-extrabold text-[#78223B]">
               {weddingData.wedding.dayOfWeek}
             </p>
 
-            {/* MASSIVE, BOLD, VIBRANT SCULPTED DATE NUMERAL */}
-            <div className="my-1 sm:my-2 relative flex items-center justify-center">
-              <span className="font-serif-luxury text-7xl sm:text-9xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-[#B88424] via-[#F2D68C] to-[#8F6416] drop-shadow-sm leading-none">
+            {/* Sculpted Date Numeral */}
+            <div className="my-1 relative flex items-center justify-center">
+              <span className="font-serif-luxury text-5xl sm:text-7xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-[#B88424] via-[#F2D68C] to-[#8F6416] drop-shadow-sm leading-none">
                 {weddingData.wedding.dayNumber}
               </span>
-              {/* Shimmer badge */}
-              <span className="absolute -top-1 -right-6 text-xl text-[#D4A33B] animate-spin">
+              <span className="absolute -top-1 -right-5 text-base text-[#D4A33B]">
                 ✨
               </span>
             </div>
 
-            {/* BOLD MONTH & YEAR */}
-            <h3 className="font-serif-luxury text-3xl sm:text-5xl font-bold tracking-wider text-[#211B17] uppercase leading-none">
+            {/* Month & Year */}
+            <h3 className="font-serif-luxury text-2xl sm:text-3xl font-bold tracking-wider text-[#211B17] uppercase leading-none">
               {weddingData.wedding.month}{" "}
               <span className="text-[#8E681C]">{weddingData.wedding.year}</span>
             </h3>
 
-            {/* CEREMONY TIME & LOCATION */}
-            <div className="mt-4 flex flex-col items-center gap-1.5 text-[#5C4F46]">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF4E6] border border-[#D4A33B]/30 text-xs font-sans-clean font-semibold text-[#8E681C]">
-                <Clock className="w-3.5 h-3.5 text-[#D4A33B]" />
-                <span>{weddingData.wedding.time} IN THE AFTERNOON</span>
+            {/* Time & Location */}
+            <div className="mt-3 flex flex-col items-center gap-1 text-[#5C4F46]">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FAF4E6] border border-[#D4A33B]/30 text-[11px] font-sans-clean font-semibold text-[#8E681C]">
+                <Clock className="w-3 h-3 text-[#D4A33B]" />
+                <span>{weddingData.wedding.time}</span>
               </div>
-              <p className="text-xs font-sans-clean text-[#65584F] mt-1">
-                {weddingData.ceremony.venue} • {weddingData.ceremony.address}
+              <p className="text-[11px] font-sans-clean text-[#65584F] mt-0.5">
+                {weddingData.ceremony.venue}
               </p>
             </div>
 
-            {/* Live Countdown in Joyful Light Cards */}
-            <div className="pt-6 mt-4 border-t border-[#D4A33B]/20 grid grid-cols-4 gap-2 sm:gap-4 w-full max-w-sm">
-              <div className="p-2 sm:p-2.5 rounded-lg bg-[#FAF7F2] border border-[#D4A33B]/30 shadow-sm text-center">
-                <span className="font-serif-luxury text-xl sm:text-2xl font-bold text-[#78223B] block leading-tight">
+            {/* Live Countdown */}
+            <div className="pt-3 mt-3 border-t border-[#D4A33B]/20 grid grid-cols-4 gap-2 w-full max-w-xs">
+              <div className="p-1.5 rounded-lg bg-[#FAF7F2] border border-[#D4A33B]/30 text-center">
+                <span className="font-serif-luxury text-base sm:text-lg font-bold text-[#78223B] block leading-tight">
                   {timeLeft.days}
                 </span>
-                <span className="text-[9px] uppercase tracking-wider text-[#8E7F74] font-sans-clean block font-medium">
+                <span className="text-[8px] uppercase tracking-wider text-[#8E7F74] font-sans-clean block font-medium">
                   Days
                 </span>
               </div>
-              <div className="p-2 sm:p-2.5 rounded-lg bg-[#FAF7F2] border border-[#D4A33B]/30 shadow-sm text-center">
-                <span className="font-serif-luxury text-xl sm:text-2xl font-bold text-[#78223B] block leading-tight">
+              <div className="p-1.5 rounded-lg bg-[#FAF7F2] border border-[#D4A33B]/30 text-center">
+                <span className="font-serif-luxury text-base sm:text-lg font-bold text-[#78223B] block leading-tight">
                   {timeLeft.hours}
                 </span>
-                <span className="text-[9px] uppercase tracking-wider text-[#8E7F74] font-sans-clean block font-medium">
+                <span className="text-[8px] uppercase tracking-wider text-[#8E7F74] font-sans-clean block font-medium">
                   Hours
                 </span>
               </div>
-              <div className="p-2 sm:p-2.5 rounded-lg bg-[#FAF7F2] border border-[#D4A33B]/30 shadow-sm text-center">
-                <span className="font-serif-luxury text-xl sm:text-2xl font-bold text-[#78223B] block leading-tight">
+              <div className="p-1.5 rounded-lg bg-[#FAF7F2] border border-[#D4A33B]/30 text-center">
+                <span className="font-serif-luxury text-base sm:text-lg font-bold text-[#78223B] block leading-tight">
                   {timeLeft.minutes}
                 </span>
-                <span className="text-[9px] uppercase tracking-wider text-[#8E7F74] font-sans-clean block font-medium">
+                <span className="text-[8px] uppercase tracking-wider text-[#8E7F74] font-sans-clean block font-medium">
                   Mins
                 </span>
               </div>
-              <div className="p-2 sm:p-2.5 rounded-lg bg-[#FAF7F2] border border-[#D4A33B]/30 shadow-sm text-center">
-                <span className="font-serif-luxury text-xl sm:text-2xl font-bold text-[#78223B] block leading-tight">
+              <div className="p-1.5 rounded-lg bg-[#FAF7F2] border border-[#D4A33B]/30 text-center">
+                <span className="font-serif-luxury text-base sm:text-lg font-bold text-[#78223B] block leading-tight">
                   {timeLeft.seconds}
                 </span>
-                <span className="text-[9px] uppercase tracking-wider text-[#8E7F74] font-sans-clean block font-medium">
+                <span className="text-[8px] uppercase tracking-wider text-[#8E7F74] font-sans-clean block font-medium">
                   Secs
                 </span>
               </div>
             </div>
 
-            {/* Add to Calendar Action */}
-            <div className="mt-5">
+            {/* Calendar CTA */}
+            <div className="mt-3.5">
               <button
                 onClick={downloadIcs}
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#78223B] hover:bg-[#58182B] text-white text-xs uppercase tracking-[0.2em] font-sans-clean font-semibold transition-all duration-300 shadow-md cursor-pointer hover:scale-105"
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#78223B] hover:bg-[#58182B] text-white text-[11px] uppercase tracking-[0.15em] font-sans-clean font-semibold transition-all shadow-sm cursor-pointer hover:scale-105"
               >
                 {addedToCalendar ? (
                   <>
-                    <Check className="w-3.5 h-3.5 text-[#F2DC9B]" />
+                    <Check className="w-3 h-3 text-[#F2DC9B]" />
                     <span>Added to Calendar!</span>
                   </>
                 ) : (
                   <>
-                    <Calendar className="w-3.5 h-3.5 text-[#F2DC9B]" />
+                    <Calendar className="w-3 h-3 text-[#F2DC9B]" />
                     <span>Add to Calendar</span>
-                    <Download className="w-3.5 h-3.5 opacity-70" />
                   </>
                 )}
               </button>
             </div>
           </div>
 
-          {/* OVERLAY: THE INTERACTIVE CANVAS SCRATCH FOIL LAYER */}
+          {/* OVERLAY: Interactive Touch Scratch Canvas Foil */}
           <canvas
             ref={canvasRef}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            className={`absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing rounded-xl z-20 transition-opacity duration-700 ${
+            className={`absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing rounded-xl z-20 transition-opacity duration-700 touch-none select-none ${
               isScratched ? "opacity-0 pointer-events-none" : "opacity-100"
             }`}
           />
 
-          {/* Particle system for glitter sparks */}
+          {/* Glitter Sparks Canvas */}
           <canvas
             ref={particlesCanvasRef}
             className="absolute inset-0 pointer-events-none z-30"
           />
         </div>
 
-        {/* Scratch Status and Quick Actions Below Card */}
-        <div className="mt-6 w-full max-w-md flex flex-col items-center gap-3">
+        {/* Scratch Status & Quick Reveal Controls */}
+        <div className="mt-4 w-full max-w-sm sm:max-w-md flex flex-col items-center gap-2 px-2">
           {!isScratched ? (
             <>
-              {/* Progress feedback */}
-              <div className="flex items-center justify-between w-full text-xs text-[#8E7F74] font-sans-clean px-2">
-                <span className="flex items-center gap-1.5 text-[#C59A45] font-medium">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>Scratch with mouse or finger ({scratchPercent}% scratched)</span>
+              <div className="flex items-center justify-between w-full text-xs text-[#8E7F74] font-sans-clean">
+                <span className="flex items-center gap-1 text-[#C59A45] font-medium text-[11px]">
+                  <Sparkles className="w-3 h-3" />
+                  <span>Scratch to reveal ({scratchPercent}%)</span>
                 </span>
                 <button
                   onClick={revealComplete}
@@ -538,10 +550,10 @@ END:VCALENDAR`;
                 </button>
               </div>
 
-              {/* SLIDE-TO-REVEAL SLIDER BAR */}
-              <div className="w-full bg-[#FAF4E6] p-3 rounded-full border border-[#D4A33B]/40 flex items-center gap-3 shadow-inner">
-                <span className="text-[11px] uppercase tracking-wider text-[#8E681C] font-sans-clean font-bold pl-3 flex-shrink-0">
-                  Slide to Reveal:
+              {/* Compact Slide-to-Reveal Slider */}
+              <div className="w-full bg-[#FAF4E6] p-2 rounded-full border border-[#D4A33B]/40 flex items-center gap-2.5 shadow-inner">
+                <span className="text-[10px] uppercase tracking-wider text-[#8E681C] font-sans-clean font-bold pl-2 flex-shrink-0">
+                  Slide:
                 </span>
                 <input
                   type="range"
@@ -550,17 +562,17 @@ END:VCALENDAR`;
                   value={sliderValue}
                   onChange={handleSliderChange}
                   aria-label="Slide to reveal wedding date"
-                  className="w-full accent-[#C59A45] cursor-pointer h-2 bg-[#EADBB8] rounded-lg"
+                  className="w-full accent-[#C59A45] cursor-pointer h-1.5 bg-[#EADBB8] rounded-lg"
                 />
-                <span className="text-xs font-serif-luxury text-[#78223B] font-bold pr-2 flex-shrink-0">
+                <span className="text-[11px] font-serif-luxury text-[#78223B] font-bold pr-2 flex-shrink-0">
                   {sliderValue}%
                 </span>
               </div>
             </>
           ) : (
-            <div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-sans-clean text-[#78223B] font-bold bg-[#FAF4E6] px-5 py-2 rounded-full border border-[#D4A33B]/40 animate-fade-in shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-[#D4A33B]" />
-              <span>Saturday, 20 June 2027 • Revealed With Love!</span>
+            <div className="flex items-center gap-2 text-xs uppercase tracking-[0.15em] font-sans-clean text-[#78223B] font-bold bg-[#FAF4E6] px-4 py-1.5 rounded-full border border-[#D4A33B]/40 shadow-xs">
+              <Sparkles className="w-3 h-3 text-[#D4A33B]" />
+              <span>{weddingData.wedding.date} • Revealed!</span>
             </div>
           )}
         </div>

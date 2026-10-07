@@ -73,7 +73,7 @@ export default function ReceptionCelebration() {
         <div className="mb-8 flex flex-col items-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF0DC] border border-[#D4A33B]/40 text-[#8E681C] text-[11px] uppercase tracking-[0.3em] font-sans-clean font-semibold mb-2">
             <Sparkles className="w-3.5 h-3.5 text-[#D4A33B]" />
-            <span>Chapter V • The Joyful Celebration</span>
+            <span>Chapter III • The Joyful Celebration</span>
           </div>
           <h2 className="font-serif-luxury text-4xl sm:text-5xl md:text-6xl text-[#211B17] font-semibold tracking-wide">
             The Wedding Reception
