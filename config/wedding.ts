@@ -2,17 +2,18 @@ import { WeddingConfig } from "../src/types/wedding";
 import { defaultScriptures } from "./scriptures";
 
 /**
- * WEDDING CONFIGURATION TEMPLATE
+ * WEDDING CONFIGURATION — MISHEL MATHEW & ELIZABETH GRACE
  * 
- * Replace mock values with real client information.
- * Any optional field omitted will gracefully hide or adapt components.
- * Refer to CLIENT-DATA-GUIDE.md for detailed documentation.
+ * Knanaya Catholic Matrimony Celebrations
+ * Engagement: 9 January 2027 @ Neendoor
+ * Wedding: 16 January 2027 @ Chullikkara & Rajapuram
  */
 export const weddingData: WeddingConfig = {
   couple: {
     bride: {
       name: "Elizabeth Grace",
       firstName: "Elizabeth",
+      houseName: "Thekkeparambil",
       portrait: "/images/couple/bride.webp",
       parents: {
         father: "Michael Thomas",
@@ -21,63 +22,111 @@ export const weddingData: WeddingConfig = {
       quote: "My beloved is mine, and I am his."
     },
     groom: {
-      name: "Daniel James",
-      firstName: "Daniel",
+      name: "Mishel Mathew",
+      firstName: "Mishel",
+      houseName: "Mulavanal",
       portrait: "/images/couple/groom.webp",
       parents: {
-        father: "David James",
-        mother: "Rebecca James"
+        father: "Mathew Mulavanal Joseph",
+        mother: "Mercily Ayithil Philip"
       },
       quote: "I found the one whom my soul loves."
     }
   },
 
+  engagement: {
+    title: "Sacred Betrothal & Engagement Ceremony",
+    venue: "St. Michael's Knanaya Catholic Church, Neendoor",
+    receptionVenue: "St. Michael's Church Parish Hall, Neendoor",
+    address: "Neendoor, Kottayam, Kerala",
+    date: "Saturday, 9 January 2027",
+    time: "6:00 PM",
+    mapUrl: "https://maps.google.com/?q=St+Michaels+Knanaya+Catholic+Church+Neendoor",
+    photoUrl: "/images/church/church-facade.webp",
+    notes: "Ceremony begins at 6:00 PM, followed by evening reception and fellowship at St. Michael's Parish Hall, Neendoor."
+  },
+
   wedding: {
-    date: "Saturday, 20 June 2027",
+    date: "Saturday, 16 January 2027",
     dayOfWeek: "SATURDAY",
-    dayNumber: "20",
-    month: "JUNE",
+    dayNumber: "16",
+    month: "JANUARY",
     year: "2027",
-    time: "4:30 PM",
-    isoDateTime: "2027-06-20T16:30:00"
+    time: "10:30 AM",
+    isoDateTime: "2027-01-16T10:30:00"
   },
 
   ceremony: {
     title: "Holy Matrimony Ceremony",
-    venue: "St. Grace Community Church",
-    address: "125 Grace Avenue, Springfield",
-    date: "Saturday, 20 June 2027",
-    time: "4:30 PM",
-    mapUrl: "https://maps.google.com/?q=St.+Grace+Community+Church+Springfield",
+    venue: "St. Mary's Knanaya Catholic Church, Chullikkara",
+    address: "Chullikkara, Kasaragod, Kerala",
+    date: "Saturday, 16 January 2027",
+    time: "10:30 AM",
+    mapUrl: "https://maps.google.com/?q=St+Marys+Knanaya+Church+Chullikkara",
     photoUrl: "/images/church/church-facade.webp",
-    notes: "Ceremony begins promptly at 4:30 PM. Please arrive 15 minutes prior for preludes.",
-    coordinates: {
-      lat: 39.7817,
-      lng: -89.6501
-    }
+    notes: "Holy Matrimony service starts promptly at 10:30 AM."
   },
 
   reception: {
-    title: "The Wedding Celebration",
-    venue: "The Grand Garden Hall",
-    address: "45 Rosewood Lane, Springfield",
-    date: "Saturday, 20 June 2027",
-    time: "6:30 PM onwards",
-    mapUrl: "https://maps.google.com/?q=The+Grand+Garden+Hall+Springfield",
+    title: "Wedding Reception & Lunch Banquet",
+    venue: "Holy Family Parish Hall, Rajapuram",
+    address: "Rajapuram, Kasaragod, Kerala",
+    date: "Saturday, 16 January 2027",
+    time: "12:30 PM onwards",
+    mapUrl: "https://maps.google.com/?q=Holy+Family+Parish+Hall+Rajapuram",
     photoUrl: "/images/reception/reception-hall.webp",
-    notes: "Cocktail reception, dinner banquet, and joyful celebration under the stars.",
-    coordinates: {
-      lat: 39.7885,
-      lng: -89.6420
-    }
+    notes: "Followed by traditional lunch banquet, felicitations, and joyful fellowship."
   },
 
   rsvp: {
-    deadline: "1 June 2027",
-    contact: "+1 (555) 019-2834",
-    email: "celebrate@elizabethanddaniel.com",
-    url: "https://rsvp.elizabethanddaniel.com",
-    allowGuestCount: true
+    deadline: "25 December 2026",
+    contact: "+91 98470 00000",
+    email: "mulavanal.wedding@gmail.com",
+    allowGuestCount: true,
+    requireTrainFacility: true
+  },
+
+  transport: {
+    enabled: true,
+    maxGuests: 10,
+    allowGuestCategory: false,
+    journeys: [
+      {
+        id: "journey-9",
+        label: "9th January (Engagement)",
+        shortLabel: "9th",
+        date: "2027-01-09",
+        eventName: "Engagement @ St. Michael's Neendoor",
+        mode: "train",
+        enabled: true,
+      },
+      {
+        id: "journey-16",
+        label: "16th January (Holy Matrimony & Lunch)",
+        shortLabel: "16th",
+        date: "2027-01-16",
+        eventName: "Holy Matrimony @ Chullikkara & Lunch @ Rajapuram",
+        mode: "train",
+        enabled: true,
+      },
+    ],
+    boardingStations: [
+      "Kottayam",
+      "Ernakulam",
+      "Kozhikode",
+      "Kannur",
+      "Kanhangad",
+      "Kasaragod",
+      "Trivandrum",
+      "Thrissur",
+      "Palakkad",
+      "Chennai",
+      "Salem",
+      "Erode",
+      "Coimbatore",
+      "Bangalore",
+      "Other",
+    ],
   },
 
   scriptures: {
@@ -88,7 +137,7 @@ export const weddingData: WeddingConfig = {
 
   editorial: {
     invitationPreamble:
-      "Together with their families,\nElizabeth Grace & Daniel James\ninvite you to celebrate the beginning of their life together under the blessing of God.",
+      "Together with their families,\nElizabeth Grace\n&\nMishel Mathew (Mulavanal)\ninvite you to celebrate the beginning of their life together under the blessing of God.",
     covenantMetaphor: "A cord of three strands is not quickly broken.",
     aisleQuote: "Until we stand before God, and promise forever.",
     vowsQuote:
@@ -110,42 +159,11 @@ export const weddingData: WeddingConfig = {
     finalBg: "/images/final/final-glow.webp",
     bridePortrait: "/images/couple/bride.webp",
     groomPortrait: "/images/couple/groom.webp",
-    coupleEditorial: "/images/couple/couple-editorial.webp",
-    gallery: [
-      "/images/couple/couple-editorial.webp",
-      "/images/church/church-facade.webp",
-      "/images/church/aisle-perspective.webp",
-      "/images/reception/reception-hall.webp"
-    ]
+    coupleEditorial: "/images/couple/couple-editorial.webp"
   },
 
   optional: {
-    dressCode: "Formal Black Tie & Elegant Church Attire (Neutral & Warm Earth Tones)",
-    parkingInfo: "Complimentary valet parking available at both the Church and Reception Hall.",
-    accommodation: "A block of rooms has been reserved at The Springfield Grand Hotel.",
-    livestreamUrl: "https://youtube.com/live/elizabeth-daniel-wedding",
-    weddingHashtag: "#DanielFoundHisGrace",
-    audioTrack: {
-      title: "Canon in D (Cinematic Piano & Strings)",
-      artist: "Faith & Harmony Chamber Ensemble",
-      src: "/audio/ambient-hymn.mp3"
-    },
-    giftRegistry: [
-      {
-        title: "Crate & Barrel",
-        url: "https://www.crateandbarrel.com",
-        description: "Home essentials for the newlyweds"
-      },
-      {
-        title: "Williams Sonoma",
-        url: "https://www.williams-sonoma.com",
-        description: "Culinary & kitchen provisions"
-      },
-      {
-        title: "Missionary & Charity Fund",
-        url: "https://charitywater.org",
-        description: "Support clean water projects in honor of our covenant"
-      }
-    ]
+    parkingInfo: "Parking facilities available at St. Michael's Neendoor and Holy Family Parish Hall Rajapuram.",
+    weddingHashtag: "#MishelWedsElizabeth"
   }
 };

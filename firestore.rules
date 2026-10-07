@@ -1,0 +1,46 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && (
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
+        request.auth.token.admin == true
+      );
+    }
+
+    function isValidRSVP() {
+      let data = request.resource.data;
+      return data.primaryGuestName is string && data.primaryGuestName.size() > 0 &&
+             data.phone is string && data.phone.size() >= 8 &&
+             data.attending is bool &&
+             data.guestCount is number && data.guestCount >= 0 && data.guestCount <= 20;
+    }
+
+    // RSVPs Collection
+    match /rsvps/{rsvpId} {
+      // Admins have full read, write, and delete permissions
+      allow read, write: if isAdmin();
+
+      // Guests can create a new RSVP with valid data
+      allow create: if isValidRSVP();
+
+      // Guests can update an existing response (e.g. updating attendance or transport)
+      allow update: if isValidRSVP();
+
+      // Deletion is strictly restricted to authenticated administrators
+      allow delete: if isAdmin();
+    }
+
+    // Admins Collection (Restricted)
+    match /admins/{adminId} {
+      allow read: if isAuthenticated();
+      allow write: if false; // Managed via Firebase Console or Admin SDK
+    }
+  }
+}

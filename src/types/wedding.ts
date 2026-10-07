@@ -10,6 +10,8 @@ export interface Parents {
 }
 
 export interface CouplePerson extends Person {
+  fullName?: string;
+  houseName?: string;
   parents: Parents;
   quote?: string;
 }
@@ -28,6 +30,7 @@ export interface EventDetails {
   mapUrl?: string;
   photoUrl?: string;
   notes?: string;
+  receptionVenue?: string;
   coordinates?: {
     lat: number;
     lng: number;
@@ -48,7 +51,9 @@ export interface RsvpConfig {
   contact: string;
   email?: string;
   url?: string;
+  maxGuests?: number;
   allowGuestCount?: boolean;
+  requireTrainFacility?: boolean;
 }
 
 export interface OptionalDetails {
@@ -71,6 +76,7 @@ export interface OptionalDetails {
 
 export interface WeddingConfig {
   couple: CoupleConfig;
+  engagement: EventDetails;
   wedding: {
     date: string;
     dayOfWeek: string;
@@ -78,15 +84,16 @@ export interface WeddingConfig {
     month: string;
     year: string;
     time: string;
-    isoDateTime: string; // for calendar invite & countdown
+    isoDateTime: string;
   };
   ceremony: EventDetails;
   reception: EventDetails;
   rsvp: RsvpConfig;
+  transport: import("./rsvp").TransportConfig;
   scriptures: {
-    primary: ScriptureConfig; // 1 Corinthians 13:4-8
-    secondary: ScriptureConfig; // Ecclesiastes 4:9-12 (The Covenant / 3 strands)
-    blessing: ScriptureConfig; // Colossians 3:14 / 1 Corinthians 16:14
+    primary: ScriptureConfig;
+    secondary: ScriptureConfig;
+    blessing: ScriptureConfig;
   };
   editorial: {
     invitationPreamble: string;

@@ -77,8 +77,8 @@ export default function FinalBlessing() {
           we invite you to celebrate with us.
         </p>
 
-        {/* Back to Top */}
-        <div className="pt-8">
+        {/* Back to Top & Discreet Admin Link */}
+        <div className="pt-8 flex flex-col items-center gap-4">
           <button
             onClick={scrollToTop}
             className="group flex flex-col items-center gap-2 text-[#8E7F74] hover:text-[#78223B] transition-colors cursor-pointer"
@@ -91,6 +91,15 @@ export default function FinalBlessing() {
               Return to Beginning
             </span>
           </button>
+
+          <a
+            href="/admin/login"
+            className="text-[11px] font-sans-clean text-[#8E7F74]/60 hover:text-[#78223B] tracking-wider transition-colors pt-4 flex items-center gap-1"
+            title="Organizer Portal"
+          >
+            <span>✝</span>
+            <span>Host Portal</span>
+          </a>
         </div>
       </div>
     </section>
