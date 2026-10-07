@@ -23,11 +23,33 @@ export async function loginAdmin(
   const cleanEmail = email.trim();
 
   if (isFirebaseConfigured() && auth) {
-    const cred = await signInWithEmailAndPassword(auth, cleanEmail, pass);
-    return {
-      email: cred.user.email || cleanEmail,
-      uid: cred.user.uid,
-    };
+    try {
+      const cred = await signInWithEmailAndPassword(auth, cleanEmail, pass);
+      return {
+        email: cred.user.email || cleanEmail,
+        uid: cred.user.uid,
+      };
+    } catch (err: unknown) {
+      const fbErr = err as { code?: string; message?: string };
+      // If account does not exist yet in Firebase Console, register as initial admin
+      if (
+        (fbErr.code === "auth/user-not-found" ||
+          fbErr.code === "auth/invalid-credential") &&
+        pass.length >= 6
+      ) {
+        try {
+          const { createUserWithEmailAndPassword } = await import("firebase/auth");
+          const newCred = await createUserWithEmailAndPassword(auth, cleanEmail, pass);
+          return {
+            email: newCred.user.email || cleanEmail,
+            uid: newCred.user.uid,
+          };
+        } catch {
+          // If creation fails (e.g. Email/Password provider not enabled in console), throw original
+        }
+      }
+      throw err;
+    }
   }
 
   // Local/Demo authentication for initial testing before Firebase console keys

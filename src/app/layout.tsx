@@ -68,6 +68,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${cormorant.variable} ${alexBrush.variable} ${montserrat.variable} ${poppins.variable} h-full scroll-smooth`}
     >
       <body className="min-h-full bg-[#FCFAF6] text-[#211B17] antialiased selection:bg-[#C59A45]/20 selection:text-[#211B17]">

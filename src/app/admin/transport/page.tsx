@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
-import { getAllRSVPs, computeRSVPStats } from "@/lib/firestore";
+import { getAllRSVPs, computeRSVPStats, getLastFirestoreError } from "@/lib/firestore";
 import { RSVPData, RSVPStats } from "@/types/rsvp";
 import { weddingData } from "@/config/wedding";
 import { exportTrainRosterToCSV } from "@/utils/exportRSVP";
@@ -16,12 +16,14 @@ import {
   Phone,
   FileText,
   Calendar,
+  ShieldAlert,
 } from "lucide-react";
 
 export default function AdminTransportPage() {
   const [rsvps, setRsvps] = useState<RSVPData[]>([]);
   const [stats, setStats] = useState<RSVPStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [permissionError, setPermissionError] = useState(false);
   const [activeJourneyTab, setActiveJourneyTab] = useState<string>("journey-9");
   const [passengerSearch, setPassengerSearch] = useState<string>("");
   const [stationFilter, setStationFilter] = useState<string>("all");
@@ -35,6 +37,7 @@ export default function AdminTransportPage() {
       setRsvps(records);
       const computed = computeRSVPStats(records);
       setStats(computed);
+      setPermissionError(getLastFirestoreError() === "PERMISSION_DENIED");
     } catch (err) {
       console.error("Transport load error:", err);
     } finally {
@@ -96,6 +99,21 @@ export default function AdminTransportPage() {
             <span>Sync Passengers</span>
           </button>
         </div>
+
+        {/* Firestore Permission Guidance Banner */}
+        {permissionError && (
+          <div className="p-4 sm:p-5 rounded-2xl bg-[#FFFBF0] border border-[#F0D59B] text-xs text-[#7A5200] space-y-2 shadow-xs">
+            <div className="flex items-center gap-2">
+              <ShieldAlert className="w-5 h-5 text-[#C98200] flex-shrink-0" />
+              <h3 className="font-bold text-sm text-[#5C3D00]">
+                Firestore Cloud Permissions Pending
+              </h3>
+            </div>
+            <p className="text-xs text-[#6B4900]">
+              Firebase reported <code className="bg-[#FAF0DC] px-1.5 py-0.5 rounded font-mono text-[11px] text-[#8E44AD]">Missing or insufficient permissions</code>. Please publish the rules in <strong>Firebase Console &gt; Firestore Database &gt; Rules</strong>.
+            </p>
+          </div>
+        )}
 
         {/* Journey Summary Cards (Side by Side for Quick Comparison) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

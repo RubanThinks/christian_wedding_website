@@ -144,6 +144,12 @@ export async function saveRSVP(
   }
 }
 
+let lastFirestoreError: string | null = null;
+
+export function getLastFirestoreError(): string | null {
+  return lastFirestoreError;
+}
+
 /**
  * Get all RSVP documents for Admin Dashboard
  */
@@ -156,9 +162,19 @@ export async function getAllRSVPs(): Promise<RSVPData[]> {
       snapshot.forEach((d) => {
         results.push({ id: d.id, ...d.data() } as RSVPData);
       });
+      lastFirestoreError = null;
       return results;
-    } catch (err) {
-      console.warn("Firestore getAllRSVPs fallback:", err);
+    } catch (err: unknown) {
+      const fbErr = err as { code?: string; message?: string };
+      if (fbErr?.code === "permission-denied") {
+        lastFirestoreError = "PERMISSION_DENIED";
+        console.warn(
+          "⚠️ Cloud Firestore permission-denied: Security Rules in Firebase Console are currently blocking reads. Please publish rules in Firebase Console > Firestore Database > Rules."
+        );
+      } else {
+        lastFirestoreError = fbErr?.message || "UNKNOWN_ERROR";
+        console.warn("Firestore getAllRSVPs fallback:", err);
+      }
     }
   }
 
