@@ -1,45 +1,70 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { weddingData } from "@/config/wedding";
-import { ChevronDown, Play, Pause } from "lucide-react";
+import { ChevronDown, Sparkles, RotateCcw } from "lucide-react";
 
 export default function HeroVideoIntro() {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const curtainVideoRef = useRef<HTMLVideoElement>(null);
+  const [curtainRevealed, setCurtainRevealed] = useState(false);
+  const [revealWidth, setRevealWidth] = useState(0); // 0% (closed) to 100% (fully parted)
   const [videoLoaded, setVideoLoaded] = useState(false);
-  const [videoEnded, setVideoEnded] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [videoExists, setVideoExists] = useState(false);
 
+  // Progressive curtain opening tracking
+  // christian-intro.mp4 is 6.02s long:
+  // - 0.0s to 0.7s: Curtains are fully closed
+  // - 0.7s to 4.2s: Curtains pull open smoothly from center to edges
+  // - 4.2s+: Curtains are fully open at the edges
   useEffect(() => {
-    // Check if user dropped intro.mp4 into /videos/intro.mp4
-    fetch(weddingData.media.introVideo.src, { method: "HEAD" })
-      .then((res) => {
-        if (res.ok) setVideoExists(true);
-      })
-      .catch(() => setVideoExists(false));
+    let animId: number;
+
+    const trackCurtainOpening = () => {
+      const vid = curtainVideoRef.current;
+      if (vid && !curtainRevealed) {
+        const t = vid.currentTime;
+        if (t < 0.7) {
+          setRevealWidth(0);
+        } else if (t >= 0.7 && t <= 4.2) {
+          // Progress from 0 to 1
+          const raw = (t - 0.7) / 3.5;
+          // Smooth sine easing so opening feels physical and lively
+          const eased = Math.sin((raw * Math.PI) / 2);
+          setRevealWidth(eased * 100);
+        } else if (t > 4.2) {
+          setRevealWidth(100);
+          setCurtainRevealed(true);
+        }
+      }
+      animId = requestAnimationFrame(trackCurtainOpening);
+    };
+
+    animId = requestAnimationFrame(trackCurtainOpening);
+    return () => cancelAnimationFrame(animId);
+  }, [curtainRevealed]);
+
+  // Auto-play the curtain reveal video on mount
+  useEffect(() => {
+    if (curtainVideoRef.current) {
+      curtainVideoRef.current.play().catch(() => {
+        // Autoplay policy fallback: let user open manually
+      });
+    }
   }, []);
 
-  const handleVideoEnded = () => {
-    setVideoEnded(true);
-    // Smoothly scroll to the couple reveal scene
-    const nextSection = document.getElementById("scene-couple");
-    if (nextSection) {
-      nextSection.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  const openCurtain = useCallback(() => {
+    setRevealWidth(100);
+    setCurtainRevealed(true);
+  }, []);
 
-  const togglePlay = () => {
-    if (!videoRef.current) return;
-    if (videoRef.current.paused) {
-      videoRef.current.play();
-      setIsPlaying(true);
-    } else {
-      videoRef.current.pause();
-      setIsPlaying(false);
+  const replayCurtain = useCallback(() => {
+    setCurtainRevealed(false);
+    setRevealWidth(0);
+    if (curtainVideoRef.current) {
+      curtainVideoRef.current.currentTime = 0;
+      curtainVideoRef.current.play().catch(() => {});
     }
-  };
+  }, []);
 
   const scrollToCouple = () => {
     const nextSection = document.getElementById("scene-invitation") || document.getElementById("scene-couple");
@@ -48,46 +73,44 @@ export default function HeroVideoIntro() {
     }
   };
 
+  // Mask string creating a progressive feathered opening in the center
+  const maskStyle = revealWidth > 0
+    ? {
+        WebkitMaskImage: `linear-gradient(to right, black 0%, black calc(50% - ${revealWidth / 2}% - 40px), transparent calc(50% - ${revealWidth / 2}%), transparent calc(50% + ${revealWidth / 2}%), black calc(50% + ${revealWidth / 2}% + 40px), black 100%)`,
+        maskImage: `linear-gradient(to right, black 0%, black calc(50% - ${revealWidth / 2}% - 40px), transparent calc(50% - ${revealWidth / 2}%), transparent calc(50% + ${revealWidth / 2}%), black calc(50% + ${revealWidth / 2}% + 40px), black 100%)`,
+      }
+    : undefined;
+
   return (
     <section
       id="scene-hero"
       className="relative w-full h-[100svh] min-h-[640px] flex items-center justify-center overflow-hidden bg-black"
     >
-      {/* Background Media: Video or Cinematic Poster */}
-      <div className="absolute inset-0 z-0">
-        {videoExists ? (
-          <video
-            ref={videoRef}
-            src={weddingData.media.introVideo.src}
-            poster={weddingData.media.introVideo.poster}
-            autoPlay
-            muted
-            playsInline
-            onEnded={handleVideoEnded}
-            onLoadedData={() => setVideoLoaded(true)}
-            className="w-full h-full object-cover scale-105"
-          />
-        ) : (
-          <div className="relative w-full h-full">
-            <Image
-              src={weddingData.media.heroBg}
-              alt="Cinematic Church Sanctuary"
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover scale-105 transform transition-transform duration-[10000ms] ease-out hover:scale-100"
-            />
-          </div>
-        )}
+      {/* =========================================================================
+          LAYER 1: PERMANENT CINEMATIC CHURCH SANCTUARY BACKGROUND IMAGE (z-0)
+          Always visible, mandatory, and continuously revealed through the curtains!
+         ========================================================================= */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <Image
+          src={weddingData.media.heroBg}
+          alt="Cinematic Church Sanctuary"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover scale-105 transition-transform duration-[10000ms] ease-out"
+        />
 
-        {/* Clean Cinematic Natural Lighting - Absolutely No White Shadows */}
-        <div className="absolute inset-0 bg-black/40" />
+        {/* Clean Natural Cinematic Lighting - Warm Ambient Vignette */}
+        <div className="absolute inset-0 bg-black/45" />
 
         {/* Ambient floating gold dust motes */}
         <div className="absolute inset-0 pointer-events-none opacity-30 bg-[radial-gradient(#F5E4B5_1.5px,transparent_1.5px)] [background-size:36px_36px]" />
       </div>
 
-      {/* Hero Typography & Editorial Composition */}
+      {/* =========================================================================
+          LAYER 2: HERO FOREGROUND CONTENT (z-10)
+          Revealed progressively through the center opening as the curtains part!
+         ========================================================================= */}
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center flex flex-col items-center justify-center">
         {/* Subtle Christian Cross Motif */}
         <div className="mb-6 flex flex-col items-center animate-fade-in">
@@ -149,15 +172,61 @@ export default function HeroVideoIntro() {
         </div>
       </div>
 
-      {/* Video Play/Pause subtle control (if video is active) */}
-      {videoExists && (
-        <button
-          onClick={togglePlay}
-          className="absolute bottom-6 left-6 z-20 p-2.5 rounded-full bg-[#140E0C]/60 text-[#FAF7F2] hover:bg-[#140E0C]/90 border border-[#C5A059]/30 transition-all cursor-pointer"
-          aria-label={isPlaying ? "Pause Intro Video" : "Play Intro Video"}
-        >
-          {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-        </button>
+      {/* =========================================================================
+          LAYER 3: FOREMOST GROUND — REAL-TIME DYNAMIC CURTAIN REVEAL OVERLAY (z-40)
+          One layer TOP to the hero section!
+          As the curtains in the video open, the center opening expands in real time,
+          revealing the church sanctuary and couple names underneath progressively!
+         ========================================================================= */}
+      <div
+        style={maskStyle}
+        className={`absolute inset-0 z-40 transition-opacity duration-1000 ease-out overflow-hidden ${
+          curtainRevealed
+            ? "opacity-0 pointer-events-none"
+            : "opacity-100 pointer-events-auto"
+        }`}
+      >
+        {/* Intro Video of Curtains Opening */}
+        <video
+          ref={curtainVideoRef}
+          src="/videos/christian-intro.mp4"
+          muted
+          playsInline
+          autoPlay
+          style={{ mixBlendMode: "screen" }}
+          onLoadedData={() => setVideoLoaded(true)}
+          className="w-full h-full object-cover filter contrast-[1.12]"
+        />
+
+        {/* Floating Quick Action: Open Curtains */}
+        {!curtainRevealed && (
+          <div className="absolute top-6 right-6 z-50 flex items-center gap-2">
+            <button
+              onClick={openCurtain}
+              className="px-4 py-1.5 rounded-full bg-black/60 hover:bg-black/85 backdrop-blur-md border border-[#C5A059]/50 text-[#E7C982] text-xs font-sans-clean font-medium transition-all cursor-pointer shadow-lg flex items-center gap-1.5 hover:scale-105"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
+              <span>Open Curtains</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* =========================================================================
+          INTERACTIVE CONTROLS: REPLAY CURTAIN REVEAL (z-20)
+          Allows the client/guests to smoothly re-close and re-open the curtains anytime!
+         ========================================================================= */}
+      {curtainRevealed && (
+        <div className="absolute bottom-6 left-6 z-20">
+          <button
+            onClick={replayCurtain}
+            className="group px-3.5 py-1.5 rounded-full bg-[#140E0C]/70 hover:bg-[#140E0C]/95 backdrop-blur-md border border-[#C5A059]/35 text-[#FAF7F2] hover:text-[#E7C982] text-xs font-sans-clean transition-all cursor-pointer flex items-center gap-2 shadow-md hover:border-[#C5A059]"
+            title="Replay Curtain Reveal"
+          >
+            <RotateCcw className="w-3.5 h-3.5 text-[#C5A059] group-hover:-rotate-90 transition-transform" />
+            <span className="text-[11px] uppercase tracking-wider font-medium">Replay Curtains</span>
+          </button>
+        </div>
       )}
     </section>
   );

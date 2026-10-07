@@ -146,7 +146,7 @@ export const weddingData: WeddingConfig = {
 
   media: {
     introVideo: {
-      src: "/videos/intro.mp4",
+      src: "/videos/christian-intro.mp4",
       poster: "/images/hero/cinematic-poster.webp"
     },
     heroBg: "/images/hero/hero-bg.webp",

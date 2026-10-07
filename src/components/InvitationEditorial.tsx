@@ -189,7 +189,7 @@ export default function InvitationEditorial() {
               <div className="my-6 sm:my-8 flex justify-center">
                 <div className="relative group max-w-[260px] sm:max-w-[310px] w-full">
                   {/* Floating Golden Halo Accent */}
-                  <div className="relative rounded-t-[130px] sm:rounded-t-[160px] rounded-b-2xl overflow-hidden shadow-[0_20px_45px_rgba(120,34,59,0.22)] ring-1 ring-[#D4A33B]/60 ring-offset-3 ring-offset-white/80 transition-transform duration-700 group-hover:scale-[1.02]">
+                  <div className="relative rounded-t-[130px] sm:rounded-t-[160px] rounded-b-2xl overflow-hidden shadow-[0_20px_45px_rgba(120,34,59,0.22)] ring-1 ring-[#D4A33B]/60 ring-offset-3 ring-offset-white/80">
                     
                     {/* Crown Cross Accent */}
                     <div className="absolute top-2.5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1 select-none pointer-events-none">
@@ -198,14 +198,14 @@ export default function InvitationEditorial() {
                       <span className="text-[#E7C982] text-xs">✦</span>
                     </div>
 
-                    {/* Image Canvas */}
-                    <div className="relative aspect-[3/4] w-full bg-[#EADBB8]/40">
+                    {/* Image Canvas - Center Aligned with No Zoom */}
+                    <div className="relative aspect-[4/5] w-full bg-[#EADBB8]/40 overflow-hidden rounded-t-[130px] sm:rounded-t-[160px] rounded-b-2xl">
                       <Image
                         src="/images/couple/ch-fg-couple.png"
                         alt={`${groom.name} & ${bride.name}`}
                         fill
                         sizes="(max-width: 640px) 260px, 310px"
-                        className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                        className="object-cover object-center"
                         priority
                       />
                       {/* Inner Hairline Gilded Border */}
