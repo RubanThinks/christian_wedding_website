@@ -19,7 +19,7 @@ export default function InvitationEditorial() {
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF0DC] border border-[#D4A33B]/40 text-[#8E681C] text-[11px] uppercase tracking-[0.3em] font-sans-clean font-semibold">
             <span>✝</span>
-            <span>Chapter III • The Formal Invitation</span>
+            <span>Chapter II • The Formal Invitation</span>
             <span>✝</span>
           </div>
         </div>

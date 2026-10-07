@@ -4,13 +4,10 @@ import NavigationBar from "@/components/NavigationBar";
 import SoundtrackToggle from "@/components/SoundtrackToggle";
 import HeroVideoIntro from "@/components/HeroVideoIntro";
 import CoupleReveal from "@/components/CoupleReveal";
-import ScriptureLove from "@/components/ScriptureLove";
 import InvitationEditorial from "@/components/InvitationEditorial";
 import RingDateReveal from "@/components/RingDateReveal";
 import CovenantStrands from "@/components/CovenantStrands";
 import ChurchCeremony from "@/components/ChurchCeremony";
-import AisleWalk from "@/components/AisleWalk";
-import VowsRings from "@/components/VowsRings";
 import ReceptionCelebration from "@/components/ReceptionCelebration";
 import LocationExperience from "@/components/LocationExperience";
 import OptionalDetailsSection from "@/components/OptionalDetailsSection";
@@ -30,43 +27,34 @@ export default function WeddingInvitationPage() {
         {/* Scene 01: Cinematic Intro Film / Sanctuary Hero */}
         <HeroVideoIntro />
 
-        {/* Scene 02: The Couple Editorial Composition */}
+        {/* Scene 02: Chapter I — The Couple Editorial Composition */}
         <CoupleReveal />
 
-        {/* Scene 03: Scripture Moment — Love (1 Corinthians 13:4-8) */}
-        <ScriptureLove />
-
-        {/* Scene 04: The Formal Physical Paper Invitation */}
+        {/* Scene 03: Chapter II — The Formal Physical Paper Invitation */}
         <InvitationEditorial />
 
-        {/* Scene 05: Signature Ring Date Reveal (GSAP Scroll Interaction) */}
+        {/* Scene 04: Save The Date — Signature Ring Date Reveal */}
         <RingDateReveal />
 
-        {/* Scene 06: The Covenant — A Cord of Three Strands (Ecclesiastes 4:12) */}
+        {/* Scene 05: Chapter III — The Sacred Covenant (Ecclesiastes 4:12) */}
         <CovenantStrands />
 
-        {/* Scene 07: The Church Ceremony Reveal */}
+        {/* Scene 06: Chapter IV — The Holy Matrimony Church Ceremony */}
         <ChurchCeremony />
 
-        {/* Scene 08: Walking The Wedding Aisle */}
-        <AisleWalk />
-
-        {/* Scene 09: Rings & Matrimonial Vows */}
-        <VowsRings />
-
-        {/* Scene 10: The Reception Celebration */}
+        {/* Scene 07: Chapter V — The Wedding Reception Celebration */}
         <ReceptionCelebration />
 
-        {/* Scene 11: Location Experience */}
+        {/* Scene 08: Chapter VI — The Gathering Places & Location Experience */}
         <LocationExperience />
 
-        {/* Optional Client Provisions (Dress Code, Accommodation, Registry, Livestream) */}
+        {/* Optional Client Provisions (Dress Code, Accommodation, Notes) */}
         <OptionalDetailsSection />
 
-        {/* Scene 12: RSVP Tactile Experience */}
+        {/* Scene 09: RSVP Tactile Experience & Train Transportation */}
         <RsvpSection />
 
-        {/* Scene 13: Final Blessing & Sacred Twilight Dim */}
+        {/* Scene 10: Final Blessing & Sacred Twilight Dim */}
         <FinalBlessing />
       </main>
     </SmoothScrollProvider>

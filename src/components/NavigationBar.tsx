@@ -25,7 +25,6 @@ export default function NavigationBar() {
 
   const navLinks = [
     { label: "The Couple", id: "scene-couple" },
-    { label: "Scripture", id: "scene-scripture" },
     { label: "Invitation", id: "scene-invitation" },
     { label: "Save The Date", id: "scene-date" },
     { label: "Covenant", id: "scene-covenant" },

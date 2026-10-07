@@ -69,7 +69,7 @@ export default function CovenantStrands() {
         <div className="mb-6">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF0DC] border border-[#D4A33B]/40 text-[#8E681C] text-[11px] uppercase tracking-[0.3em] font-sans-clean font-semibold mb-2">
             <span>✝</span>
-            <span>Chapter V • The Sacred Covenant</span>
+            <span>Chapter III • The Sacred Covenant</span>
             <span>✝</span>
           </div>
           <h2 className="font-serif-luxury text-3xl sm:text-5xl md:text-6xl text-[#211B17] font-normal tracking-wide">
