@@ -392,7 +392,7 @@ export default function RSVPWizard({ onCompleted }: { onCompleted?: () => void }
             <Minus className="w-5 h-5" />
           </button>
 
-          <span className="font-serif-luxury text-5xl sm:text-6xl font-bold text-[#78223B] w-16 text-center">
+          <span className="font-poppins text-5xl sm:text-6xl font-extrabold text-[#78223B] w-20 text-center">
             {guestCount}
           </span>
 
@@ -537,7 +537,7 @@ export default function RSVPWizard({ onCompleted }: { onCompleted?: () => void }
               const guestNumber = index + 2;
               return (
                 <div key={guestNumber} className="flex items-center gap-2">
-                  <span className="text-xs font-serif-luxury font-bold text-[#8E681C] w-16 flex-shrink-0">
+                  <span className="text-xs font-poppins font-bold text-[#8E681C] w-16 flex-shrink-0">
                     Guest {guestNumber}:
                   </span>
                   <input
@@ -654,7 +654,7 @@ export default function RSVPWizard({ onCompleted }: { onCompleted?: () => void }
                       )}
                     </div>
                     <div>
-                      <h4 className="font-serif-luxury text-lg font-bold text-[#211B17]">
+                      <h4 className="font-poppins text-base font-bold text-[#211B17]">
                         {isGroom ? "🚆" : "🚌"} {j.label.toUpperCase()}
                       </h4>
                       <p className="text-[11px] text-[#5C4F46] font-sans-clean">

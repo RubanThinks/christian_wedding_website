@@ -121,7 +121,7 @@ export default function ChurchCeremony() {
                 <span className="text-[10px] uppercase tracking-wider text-[#8E7F74] font-sans-clean block font-bold">
                   Date
                 </span>
-                <span className="text-sm font-serif-luxury text-[#211B17] font-bold">
+                <span className="text-sm font-poppins text-[#211B17] font-bold">
                   {wedding.date}
                 </span>
               </div>
@@ -133,7 +133,7 @@ export default function ChurchCeremony() {
                 <span className="text-[10px] uppercase tracking-wider text-[#8E7F74] font-sans-clean block font-bold">
                   Commencement
                 </span>
-                <span className="text-sm font-serif-luxury text-[#211B17] font-bold">
+                <span className="text-sm font-poppins text-[#211B17] font-bold">
                   {ceremony.time}
                 </span>
               </div>

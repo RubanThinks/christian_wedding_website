@@ -21,23 +21,24 @@ export default function FinalBlessing() {
       ref={containerRef}
       className="relative min-h-[100vh] py-28 md:py-40 px-6 bg-[#FAF7F2] flex flex-col items-center justify-center overflow-hidden"
     >
-      {/* Background Sanctuary Candlelight Image */}
-      <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
+      {/* Background Couple Watercolor Portrait with High Clarity */}
+      <div className="absolute inset-0 z-0 opacity-55 sm:opacity-65 pointer-events-none">
         <Image
-          src={weddingData.media.finalBg}
-          alt="Peaceful Sanctuary Candlelight"
+          src="/images/couple/bg-couple.jpg"
+          alt="Sara & Mishel Watercolor Portrait"
           fill
           priority
           sizes="100vw"
-          className="object-cover filter brightness-[0.9] contrast-[1.05]"
+          className="object-cover object-top filter brightness-[1.02] contrast-[1.08]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#FAF7F2] via-transparent to-[#FAF7F2]" />
+        {/* Soft atmospheric gradient blend into parchment */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#FAF7F2] via-[#FAF7F2]/25 to-[#FAF7F2]/80" />
       </div>
 
       {/* Tender Central Warm Golden Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] rounded-full bg-[#FFF3D6]/70 filter blur-[110px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] rounded-full bg-[#FFF3D6]/60 filter blur-[110px] pointer-events-none" />
 
-      <div className="relative z-10 max-w-2xl mx-auto text-center flex flex-col items-center space-y-8">
+      <div className="relative z-10 max-w-2xl mx-auto text-center flex flex-col items-center space-y-8 p-6 sm:p-10 rounded-2xl bg-white/70 backdrop-blur-md border border-[#D4A33B]/40 shadow-xl">
         {/* Subtle Cross */}
         <div className="flex flex-col items-center">
           <span className="text-[#D4A33B] text-xl font-bold">✝</span>

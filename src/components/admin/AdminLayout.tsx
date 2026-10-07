@@ -66,7 +66,7 @@ export default function AdminLayout({
       icon: Users,
     },
     {
-      name: "Train Transportation",
+      name: "Transportation",
       href: "/admin/transport",
       icon: Train,
     },
@@ -93,7 +93,7 @@ export default function AdminLayout({
                   </span>
                 </div>
                 <p className="text-[11px] font-sans text-[#7A6C60] hidden sm:block">
-                  Guest & Train Transport Management
+                  Guest & Transportation Logistics Management
                 </p>
               </div>
             </div>

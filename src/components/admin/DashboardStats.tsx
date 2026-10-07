@@ -26,7 +26,7 @@ export default function DashboardStats({ stats }: { stats: RSVPStats }) {
               <Users className="w-3.5 h-3.5" />
             </div>
           </div>
-          <div className="text-2xl sm:text-3xl font-serif font-bold text-[#211B17]">
+          <div className="text-2xl sm:text-3xl font-poppins font-bold text-[#211B17]">
             {stats.totalResponses}
           </div>
           <p className="text-[11px] text-[#8E7F74] mt-1 font-medium">Submissions</p>
@@ -42,7 +42,7 @@ export default function DashboardStats({ stats }: { stats: RSVPStats }) {
               <TrendingUp className="w-3.5 h-3.5" />
             </div>
           </div>
-          <div className="text-2xl sm:text-3xl font-serif font-bold text-[#7A5B15]">
+          <div className="text-2xl sm:text-3xl font-poppins font-bold text-[#7A5B15]">
             {stats.totalGuests}
           </div>
           <p className="text-[11px] text-[#8E7F74] mt-1 font-medium">
@@ -60,7 +60,7 @@ export default function DashboardStats({ stats }: { stats: RSVPStats }) {
               M
             </div>
           </div>
-          <div className="text-2xl sm:text-3xl font-serif font-bold text-[#1E4A8A]">
+          <div className="text-2xl sm:text-3xl font-poppins font-bold text-[#1E4A8A]">
             {stats.groomSideGuests}
           </div>
           <p className="text-[11px] text-[#2C5282] mt-1 font-medium">
@@ -78,7 +78,7 @@ export default function DashboardStats({ stats }: { stats: RSVPStats }) {
               S
             </div>
           </div>
-          <div className="text-2xl sm:text-3xl font-serif font-bold text-[#572B91]">
+          <div className="text-2xl sm:text-3xl font-poppins font-bold text-[#572B91]">
             {stats.brideSideGuests}
           </div>
           <p className="text-[11px] text-[#553C9A] mt-1 font-medium">
@@ -96,7 +96,7 @@ export default function DashboardStats({ stats }: { stats: RSVPStats }) {
               <UserX className="w-3.5 h-3.5" />
             </div>
           </div>
-          <div className="text-2xl sm:text-3xl font-serif font-bold text-[#8A243D]">
+          <div className="text-2xl sm:text-3xl font-poppins font-bold text-[#8A243D]">
             {stats.notAttendingCount}
           </div>
           <p className="text-[11px] text-[#A8324E] mt-1">Unable to attend</p>
@@ -113,7 +113,7 @@ export default function DashboardStats({ stats }: { stats: RSVPStats }) {
             </span>
             <Train className="w-4 h-4 text-[#164E87]" />
           </div>
-          <div className="text-2xl font-serif font-bold text-[#164E87]">
+          <div className="text-2xl font-poppins font-bold text-[#164E87]">
             {stats.totalTrainPassengers}
           </div>
           <p className="text-[11px] text-[#345D8C] mt-0.5">
@@ -129,7 +129,7 @@ export default function DashboardStats({ stats }: { stats: RSVPStats }) {
             </span>
             <Bus className="w-4 h-4 text-[#4E247E]" />
           </div>
-          <div className="text-2xl font-serif font-bold text-[#4E247E]">
+          <div className="text-2xl font-poppins font-bold text-[#4E247E]">
             {stats.totalBusPassengers}
           </div>
           <p className="text-[11px] text-[#5D378E] mt-0.5">
@@ -147,7 +147,7 @@ export default function DashboardStats({ stats }: { stats: RSVPStats }) {
               Neendoor
             </span>
           </div>
-          <div className="text-2xl font-serif font-bold text-[#211B17]">
+          <div className="text-2xl font-poppins font-bold text-[#211B17]">
             {j9}
           </div>
           <p className="text-[11px] text-[#7A6C60] mt-0.5">
@@ -165,7 +165,7 @@ export default function DashboardStats({ stats }: { stats: RSVPStats }) {
               Chullikkara
             </span>
           </div>
-          <div className="text-2xl font-serif font-bold text-[#211B17]">
+          <div className="text-2xl font-poppins font-bold text-[#211B17]">
             {j16}
           </div>
           <p className="text-[11px] text-[#7A6C60] mt-0.5">

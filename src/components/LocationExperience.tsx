@@ -168,7 +168,7 @@ export default function LocationExperience() {
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 py-2 mb-4">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#FAF7F2] border border-[#D4A33B]/30 text-xs font-sans-clean font-bold text-[#78223B]">
               <Calendar className="w-4 h-4 text-[#78223B]" />
-              <span>{current.date}</span>
+              <span className="font-poppins">{current.date}</span>
             </div>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#FAF4E6] border border-[#D4A33B]/30 text-xs font-sans-clean font-bold text-[#8E681C]">
               <Clock className="w-4 h-4 text-[#D4A33B]" />

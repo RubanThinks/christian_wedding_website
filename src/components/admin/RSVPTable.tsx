@@ -8,6 +8,7 @@ import {
   exportAllRSVPsToCSV,
   exportFilteredRSVPsToCSV,
   exportTrainRosterToCSV,
+  exportBusRosterToCSV,
 } from "@/utils/exportRSVP";
 import RSVPDetailsModal from "./RSVPDetailsModal";
 import RSVPEditModal from "./RSVPEditModal";
@@ -178,20 +179,24 @@ export default function RSVPTable({
               </button>
             )}
 
+            {/* Train Roster Export (Kanhangad) */}
             <button
               onClick={() => exportTrainRosterToCSV(rsvps, "journey-9")}
               className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-[#EBF3FB] border border-[#C3D9EE] text-[#1E429F] hover:bg-[#DCEBF8]"
+              title="Download Train Passengers Roster (Kanhangad)"
             >
               <Train className="w-3.5 h-3.5" />
-              <span>9th Train CSV</span>
+              <span>Train Roster (CSV)</span>
             </button>
 
+            {/* Bus Roster Export (Pravattom) */}
             <button
-              onClick={() => exportTrainRosterToCSV(rsvps, "journey-16")}
+              onClick={() => exportBusRosterToCSV(rsvps, "journey-9")}
               className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-[#F3ECFB] border border-[#DFC9F3] text-[#572B91] hover:bg-[#EAE0F7]"
+              title="Download Bus Passengers Roster (Pravattom)"
             >
-              <Train className="w-3.5 h-3.5" />
-              <span>16th Train CSV</span>
+              <Bus className="w-3.5 h-3.5" />
+              <span>Bus Roster (CSV)</span>
             </button>
           </div>
         </div>

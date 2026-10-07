@@ -42,7 +42,7 @@ export default function HeroVideoIntro() {
   };
 
   const scrollToCouple = () => {
-    const nextSection = document.getElementById("scene-couple");
+    const nextSection = document.getElementById("scene-invitation") || document.getElementById("scene-couple");
     if (nextSection) {
       nextSection.scrollIntoView({ behavior: "smooth" });
     }

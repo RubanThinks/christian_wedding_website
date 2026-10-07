@@ -564,7 +564,7 @@ END:VCALENDAR`;
                   aria-label="Slide to reveal wedding date"
                   className="w-full accent-[#C59A45] cursor-pointer h-1.5 bg-[#EADBB8] rounded-lg"
                 />
-                <span className="text-[11px] font-serif-luxury text-[#78223B] font-bold pr-2 flex-shrink-0">
+                <span className="text-[11px] font-poppins text-[#78223B] font-bold pr-2 flex-shrink-0">
                   {sliderValue}%
                 </span>
               </div>

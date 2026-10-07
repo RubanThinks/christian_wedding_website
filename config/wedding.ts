@@ -155,10 +155,10 @@ export const weddingData: WeddingConfig = {
     ringsBg: "/images/rings/rings-velvet.webp",
     receptionBg: "/images/reception/reception-hall.webp",
     locationBg: "/images/location/venue-location.webp",
-    finalBg: "/images/final/final-glow.webp",
+    finalBg: "/images/couple/bg-couple.jpg",
     bridePortrait: "/images/couple/bride.webp",
     groomPortrait: "/images/couple/groom.webp",
-    coupleEditorial: "/images/couple/couple-editorial.webp"
+    coupleEditorial: "/images/couple/ch-fg-couple.png"
   },
 
   optional: {

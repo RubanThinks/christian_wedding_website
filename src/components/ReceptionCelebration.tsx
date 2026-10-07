@@ -99,7 +99,7 @@ export default function ReceptionCelebration() {
 
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FAF4E6] border border-[#D4A33B]/40 text-xs text-[#8E681C] font-sans-clean font-bold mb-8">
             <Clock className="w-3.5 h-3.5 text-[#D4A33B]" />
-            <span>{reception.time}</span>
+            <span className="font-poppins">{reception.time}</span>
           </div>
 
           {/* Celebration Itinerary */}
@@ -112,7 +112,7 @@ export default function ReceptionCelebration() {
                     <Icon className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-[10px] uppercase tracking-wider text-[#8E7F74] font-sans-clean block font-bold">
+                    <span className="text-[10px] uppercase tracking-wider text-[#8E7F74] font-poppins block font-bold">
                       {step.time}
                     </span>
                     <span className="text-xs sm:text-sm font-serif-luxury text-[#211B17] font-bold leading-tight">

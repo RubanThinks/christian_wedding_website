@@ -183,7 +183,7 @@ export default function AdminTransportPage() {
               </div>
 
               <div className="text-right">
-                <span className="text-3xl font-serif font-bold text-[#1E4A8A]">
+                <span className="text-3xl font-poppins font-bold text-[#1E4A8A]">
                   {stats?.totalTrainPassengers || 0}
                 </span>
                 <span className="block text-[11px] font-sans font-bold uppercase tracking-wider text-[#7A6C60]">
@@ -230,7 +230,7 @@ export default function AdminTransportPage() {
               </div>
 
               <div className="text-right">
-                <span className="text-3xl font-serif font-bold text-[#572B91]">
+                <span className="text-3xl font-poppins font-bold text-[#572B91]">
                   {stats?.totalBusPassengers || 0}
                 </span>
                 <span className="block text-[11px] font-sans font-bold uppercase tracking-wider text-[#7A6C60]">
@@ -270,26 +270,41 @@ export default function AdminTransportPage() {
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2.5">
+            <div className="flex flex-wrap items-center gap-2">
+              {/* Train Roster Export */}
               <button
                 onClick={() => {
                   const targetJourney = selectedJourney === "all" ? "journey-9" : selectedJourney;
-                  if (isGroom) {
-                    exportTrainRosterToCSV(rsvps, targetJourney);
-                  } else {
-                    exportBusRosterToCSV(rsvps, targetJourney);
-                  }
+                  exportTrainRosterToCSV(rsvps, targetJourney);
                 }}
-                className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white shadow-xs transition-colors cursor-pointer ${
-                  isGroom ? "bg-[#1E4A8A] hover:bg-[#163868]" : "bg-[#572B91] hover:bg-[#432170]"
+                className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold shadow-xs transition-colors cursor-pointer ${
+                  isGroom
+                    ? "bg-[#1E4A8A] hover:bg-[#163868] text-white ring-2 ring-[#1E4A8A]/30"
+                    : "bg-[#EBF3FB] hover:bg-[#DCEBF8] text-[#1E4A8A] border border-[#C3D9EE]"
                 }`}
+                title="Download Train Passengers List departing from Kanhangad"
               >
                 <Download className="w-3.5 h-3.5" />
-                <span>
-                  {isGroom
-                    ? "Export Train Roster (CSV)"
-                    : "Export Bus Roster (CSV)"}
-                </span>
+                <Train className="w-3.5 h-3.5" />
+                <span>Export Train Roster (CSV)</span>
+              </button>
+
+              {/* Bus Roster Export */}
+              <button
+                onClick={() => {
+                  const targetJourney = selectedJourney === "all" ? "journey-9" : selectedJourney;
+                  exportBusRosterToCSV(rsvps, targetJourney);
+                }}
+                className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold shadow-xs transition-colors cursor-pointer ${
+                  !isGroom
+                    ? "bg-[#572B91] hover:bg-[#432170] text-white ring-2 ring-[#572B91]/30"
+                    : "bg-[#F3ECFB] hover:bg-[#EAE0F7] text-[#572B91] border border-[#DFC9F3]"
+                }`}
+                title="Download Bus Passengers List departing from Pravattom"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <Bus className="w-3.5 h-3.5" />
+                <span>Export Bus Roster (CSV)</span>
               </button>
             </div>
           </div>
