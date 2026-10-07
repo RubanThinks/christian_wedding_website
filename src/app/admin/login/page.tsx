@@ -126,14 +126,11 @@ export default function AdminLoginPage() {
             </button>
           </form>
 
-          {/* Quick Notice for Setup / Demo */}
+          {/* Production Security Notice */}
           <div className="mt-6 pt-4 border-t border-[#F0EAE1] text-[11px] text-[#8E7F74] text-center">
-            <p>
-              Protected by Firebase Authentication.
-              <br />
-              <span className="text-[10px] text-[#A3968B]">
-                (Demo login fallback: email containing &quot;admin&quot; and 6+ character password)
-              </span>
+            <p className="flex items-center justify-center gap-1.5 font-medium">
+              <Shield className="w-3.5 h-3.5 text-[#22863A]" />
+              <span>Protected by Firebase Authentication &amp; TLS Encryption</span>
             </p>
           </div>
         </div>

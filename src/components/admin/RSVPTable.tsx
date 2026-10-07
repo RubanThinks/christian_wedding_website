@@ -269,9 +269,15 @@ export default function RSVPTable({
                     colSpan={8}
                     className="py-12 text-center text-[#7A6C60] font-sans"
                   >
-                    <p className="text-sm font-semibold">No RSVP records found</p>
-                    <p className="text-xs text-[#A3968B] mt-1">
-                      Try clearing your search query or filter options.
+                    <p className="text-sm font-semibold text-[#211B17]">
+                      {rsvps.length === 0
+                        ? "Awaiting First Guest RSVP"
+                        : "No RSVP records found matching your filter"}
+                    </p>
+                    <p className="text-xs text-[#A3968B] mt-1 max-w-sm mx-auto">
+                      {rsvps.length === 0
+                        ? "Your RSVP and Train Transportation system is live. Real guest confirmations will synchronize here automatically."
+                        : "Try clearing your search query or filter options to see all responses."}
                     </p>
                   </td>
                 </tr>

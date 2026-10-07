@@ -17,108 +17,24 @@ import { weddingData } from "@/config/wedding";
 
 const LOCAL_STORAGE_KEY = "christian_wedding_rsvps_store";
 
-// Initial mock data for testing admin dashboard before remote firestore configuration
-const INITIAL_DEMO_RSVPS: RSVPData[] = [
-  {
-    id: "demo-rsvp-1",
-    primaryGuestName: "Philip Joseph",
-    phone: "+91 98471 23456",
-    email: "philip.joseph@gmail.com",
-    attending: true,
-    guestCount: 4,
-    guests: [
-      { name: "Philip Joseph" },
-      { name: "Mary Philip" },
-      { name: "Jerome Philip" },
-      { name: "Ann Philip" },
-    ],
-    transport: {
-      "journey-9": {
-        required: true,
-        allGuests: true,
-        passengerNames: ["Philip Joseph", "Mary Philip", "Jerome Philip", "Ann Philip"],
-        passengerCount: 4,
-        boardingStation: "Kottayam",
-      },
-      "journey-16": {
-        required: true,
-        allGuests: false,
-        passengerNames: ["Philip Joseph", "Mary Philip"],
-        passengerCount: 2,
-        boardingStation: "Kozhikode",
-      },
-    },
-    specialRequirements: "Elderly passenger requires lower berth / platform assistance.",
-    submittedAt: new Date(Date.now() - 86400000 * 2).toISOString(),
-    updatedAt: new Date(Date.now() - 86400000 * 1).toISOString(),
-  },
-  {
-    id: "demo-rsvp-2",
-    primaryGuestName: "Dr. Abraham Mathew",
-    phone: "+91 94470 55667",
-    email: "abraham.m@yahoo.com",
-    attending: true,
-    guestCount: 2,
-    guests: [{ name: "Dr. Abraham Mathew" }, { name: "Susan Abraham" }],
-    transport: {
-      "journey-9": {
-        required: false,
-        allGuests: false,
-        passengerNames: [],
-        passengerCount: 0,
-        boardingStation: "",
-      },
-      "journey-16": {
-        required: true,
-        allGuests: true,
-        passengerNames: ["Dr. Abraham Mathew", "Susan Abraham"],
-        passengerCount: 2,
-        boardingStation: "Ernakulam",
-      },
-    },
-    specialRequirements: "Vegetarian meals preferred.",
-    submittedAt: new Date(Date.now() - 86400000 * 3).toISOString(),
-  },
-  {
-    id: "demo-rsvp-3",
-    primaryGuestName: "George Varghese",
-    phone: "+91 97450 88990",
-    email: "george.v@hotmail.com",
-    attending: false,
-    guestCount: 0,
-    guests: [],
-    transport: {
-      "journey-9": {
-        required: false,
-        allGuests: false,
-        passengerNames: [],
-        passengerCount: 0,
-        boardingStation: "",
-      },
-      "journey-16": {
-        required: false,
-        allGuests: false,
-        passengerNames: [],
-        passengerCount: 0,
-        boardingStation: "",
-      },
-    },
-    specialRequirements: "Overseas during wedding dates. Sending our prayers and blessings!",
-    submittedAt: new Date(Date.now() - 86400000 * 4).toISOString(),
-  },
-];
-
+// Production RSVP store (starts empty; populated only by real guest submissions)
 const getLocalStore = (): RSVPData[] => {
-  if (typeof window === "undefined") return INITIAL_DEMO_RSVPS;
+  if (typeof window === "undefined") return [];
   try {
     const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (!raw) {
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(INITIAL_DEMO_RSVPS));
-      return INITIAL_DEMO_RSVPS;
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    // Automatically purge any previous demo mock data from cache
+    const cleaned = parsed.filter(
+      (item: RSVPData) => item.id && !item.id.startsWith("demo-rsvp-")
+    );
+    if (cleaned.length !== parsed.length) {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(cleaned));
     }
-    return JSON.parse(raw);
+    return cleaned;
   } catch {
-    return INITIAL_DEMO_RSVPS;
+    return [];
   }
 };
 
