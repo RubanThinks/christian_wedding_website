@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-primary: #FCFAF6;
+    --bg-secondary: #F6F1EA;
+    --bg-card: #FFFFFF;
+    --bg-accent-cream: #FFFDF9;
+    --text-primary: #211B17;
+    --text-secondary: #5C4F46;
+    --text-muted: #8E7F74;
+    --gold-primary: #C59A45;
+    --gold-vibrant: #D4A33B;
+    --gold-light: #F2DC9B;
+    --gold-deep: #8E681C;
+    --wine-regal: #58182B;
+    --wine-accent: #78223B;
+    --blush-joy: #FBF0EC;
+    --sage-peace: #EEF4EE;
+    --sage-accent: #5D7560;
+  }
+
+  html {
+    scroll-behavior: auto; /* Handled smoothly by Lenis */
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+  }
+
+  body {
+    overflow-x: hidden;
+    min-height: 100vh;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Luxury Typographic Tokens */
+.font-serif-luxury {
+  font-family: var(--font-serif), "Cormorant Garamond", "Playfair Display", Georgia, serif;
+}
+
+.font-script {
+  font-family: var(--font-script), "Alex Brush", "Great Vibes", cursive;
+}
+
+.font-sans-clean {
+  font-family: var(--font-body), "Montserrat", "Inter", sans-serif;
+}
+
+/* Foil and Metallic Textures */
+.gold-foil-text {
+  background: linear-gradient(135deg, #B58428 0%, #E8C16A 30%, #9A6F1C 60%, #E8C16A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.gold-foil-subtle {
+  background: linear-gradient(135deg, #A87A24 0%, #D8AF58 50%, #8C6215 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-border {
+  border-image: linear-gradient(135deg, #DFC493, #BF9A52, #EED79D) 1;
+}
+
+/* Physical Materials */
+.paper-deckled {
+  background-color: #FFFFFF;
+  box-shadow: 
+    0 10px 30px -5px rgba(142, 104, 28, 0.08),
+    0 20px 40px -10px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(197, 154, 69, 0.25);
+  position: relative;
+}
+
+.paper-deckled::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(#d3c7b6 0.75px, transparent 0.75px);
+  background-size: 14px 14px;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.linen-surface {
+  background-color: #FAF7F2;
+  background-image: radial-gradient(#e4dbcf 0.6px, transparent 0.6px);
+  background-size: 12px 12px;
+}
+
+.celestial-glow {
+  background: radial-gradient(circle at center, rgba(255, 248, 230, 0.9) 0%, rgba(250, 245, 235, 0.4) 60%, transparent 100%);
+}
+
+.sunbeam-light {
+  background: radial-gradient(circle at 50% 20%, rgba(255, 242, 204, 0.45) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+.gold-card-shadow {
+  box-shadow: 
+    0 15px 35px -5px rgba(181, 132, 40, 0.12),
+    0 5px 15px rgba(0, 0, 0, 0.04),
+    0 0 0 1px rgba(197, 154, 69, 0.3);
+}
+
+/* Custom Scrollbar for Light Theme */
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #F6F1EA;
+}
+::-webkit-scrollbar-thumb {
+  background: #DFC07B;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C59A45;
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
