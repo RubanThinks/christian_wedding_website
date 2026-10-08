@@ -67,7 +67,7 @@ export default function InvitationEditorial() {
                   fill
                   priority
                   sizes="(max-width: 640px) 256px, (max-width: 768px) 288px, 320px"
-                  className="object-cover object-[center_36%] transition-transform duration-700 ease-out group-hover:scale-105 filter contrast-[1.04]"
+                  className="object-cover object-[53%_39%] scale-[1.14] transition-transform duration-700 ease-out group-hover:scale-[1.20] filter contrast-[1.04]"
                 />
                 {/* Delicate inner hairline gold ring */}
                 <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-[#D4A33B]/40 pointer-events-none" />
