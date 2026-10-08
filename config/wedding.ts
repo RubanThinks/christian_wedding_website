@@ -28,7 +28,7 @@ export const weddingData: WeddingConfig = {
       portrait: "/images/couple/groom.webp",
       parents: {
         father: "Mr. Mathew Mulavanal Joseph",
-        mother: "Mrs. Mercily Ayithil Philip"
+        mother: "Mrs. Mercily Ayathil Philip"
       },
       quote: "I found the one whom my soul loves."
     }
