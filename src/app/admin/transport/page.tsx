@@ -193,8 +193,8 @@ export default function AdminTransportPage() {
             </div>
 
             <div className="mt-4 pt-3 border-t border-[#F0EAE1] flex items-center justify-between text-xs text-[#5C4F46]">
-              <span>9th Jan: <strong>{stats?.journeyStats["journey-9"]?.groomPassengers || 0}</strong> tickets</span>
-              <span>16th Jan: <strong>{stats?.journeyStats["journey-16"]?.groomPassengers || 0}</strong> tickets</span>
+              <span>8th/9th Jan Train: <strong>{stats?.journeyStats["journey-9"]?.groomPassengers || 0}</strong> tickets</span>
+              <span className="text-[#8E7F74] italic">16th Jan Wedding: Self-arranged</span>
             </div>
           </div>
 
@@ -240,8 +240,8 @@ export default function AdminTransportPage() {
             </div>
 
             <div className="mt-4 pt-3 border-t border-[#F0EAE1] flex items-center justify-between text-xs text-[#5C4F46]">
-              <span>9th Jan: <strong>{stats?.journeyStats["journey-9"]?.bridePassengers || 0}</strong> seats</span>
-              <span>16th Jan: <strong>{stats?.journeyStats["journey-16"]?.bridePassengers || 0}</strong> seats</span>
+              <span className="text-[#8E7F74] italic">9th Jan Engagement: Self-arranged</span>
+              <span>15th/16th Jan Bus: <strong>{stats?.journeyStats["journey-16"]?.bridePassengers || 0}</strong> seats</span>
             </div>
           </div>
         </div>
@@ -254,8 +254,8 @@ export default function AdminTransportPage() {
               <h3 className="font-serif text-lg font-bold text-[#211B17] flex items-center gap-2">
                 <span>
                   {isGroom
-                    ? "🚆 Groom's Train Passenger List (Kanhangad)"
-                    : "🚌 Bride's Bus Passenger List (Pravattom)"}
+                    ? "🚆 Groom's Train Passenger List (8th/9th Jan • Kanhangad)"
+                    : "🚌 Bride's Bus Passenger List (15th/16th Jan • Pravattom)"}
                 </span>
                 <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
                   isGroom ? "bg-[#EBF3FB] text-[#1E4A8A]" : "bg-[#F3ECFB] text-[#572B91]"
@@ -265,8 +265,8 @@ export default function AdminTransportPage() {
               </h3>
               <p className="text-xs text-[#7A6C60]">
                 {isGroom
-                  ? "Train bookings allocated for Mulavanal family departing from Kanhangad Station"
-                  : "Chartered bus seat roster allocated for Pazhayapurayil family departing from Pravattom"}
+                  ? "Train bookings allocated for Mulavanal family departing from Kanhangad Station on 8th Jan night, reaching 9th Jan morning for Engagement"
+                  : "Chartered bus seat roster allocated for Pazhayapurayil family departing from Pravattom on 15th Jan, reaching 16th Jan for Holy Matrimony & Lunch"}
               </p>
             </div>
 
@@ -274,37 +274,35 @@ export default function AdminTransportPage() {
               {/* Train Roster Export */}
               <button
                 onClick={() => {
-                  const targetJourney = selectedJourney === "all" ? "journey-9" : selectedJourney;
-                  exportTrainRosterToCSV(rsvps, targetJourney);
+                  exportTrainRosterToCSV(rsvps, "journey-9");
                 }}
                 className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold shadow-xs transition-colors cursor-pointer ${
                   isGroom
                     ? "bg-[#1E4A8A] hover:bg-[#163868] text-white ring-2 ring-[#1E4A8A]/30"
                     : "bg-[#EBF3FB] hover:bg-[#DCEBF8] text-[#1E4A8A] border border-[#C3D9EE]"
                 }`}
-                title="Download Train Passengers List departing from Kanhangad"
+                title="Download Groom's Train Passenger List (8th/9th Jan from Kanhangad)"
               >
                 <Download className="w-3.5 h-3.5" />
                 <Train className="w-3.5 h-3.5" />
-                <span>Export Train Roster (CSV)</span>
+                <span>Export Groom Train Roster (CSV)</span>
               </button>
 
               {/* Bus Roster Export */}
               <button
                 onClick={() => {
-                  const targetJourney = selectedJourney === "all" ? "journey-9" : selectedJourney;
-                  exportBusRosterToCSV(rsvps, targetJourney);
+                  exportBusRosterToCSV(rsvps, "journey-16");
                 }}
                 className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold shadow-xs transition-colors cursor-pointer ${
                   !isGroom
                     ? "bg-[#572B91] hover:bg-[#432170] text-white ring-2 ring-[#572B91]/30"
                     : "bg-[#F3ECFB] hover:bg-[#EAE0F7] text-[#572B91] border border-[#DFC9F3]"
                 }`}
-                title="Download Bus Passengers List departing from Pravattom"
+                title="Download Bride's Bus Passenger List (15th/16th Jan from Pravattom)"
               >
                 <Download className="w-3.5 h-3.5" />
                 <Bus className="w-3.5 h-3.5" />
-                <span>Export Bus Roster (CSV)</span>
+                <span>Export Bride Bus Roster (CSV)</span>
               </button>
             </div>
           </div>
@@ -314,7 +312,7 @@ export default function AdminTransportPage() {
             {/* Date Tabs */}
             <div className="flex items-center gap-1.5 w-full sm:w-auto">
               <span className="text-[11px] font-bold text-[#7A6C60] uppercase mr-1">
-                Event Date:
+                Filter Event:
               </span>
               <button
                 onClick={() => setSelectedJourney("all")}
@@ -324,7 +322,7 @@ export default function AdminTransportPage() {
                     : "bg-white border border-[#D5C9B8] text-[#5C4F46] hover:bg-[#F2ECE1]"
                 }`}
               >
-                All Dates ({allSidePassengers.length})
+                All ({allSidePassengers.length})
               </button>
               <button
                 onClick={() => setSelectedJourney("journey-9")}
@@ -334,7 +332,7 @@ export default function AdminTransportPage() {
                     : "bg-white border border-[#D5C9B8] text-[#5C4F46] hover:bg-[#F2ECE1]"
                 }`}
               >
-                9th Jan Engagement ({j9SideCount})
+                8th/9th Jan Train ({j9SideCount})
               </button>
               <button
                 onClick={() => setSelectedJourney("journey-16")}
@@ -344,7 +342,7 @@ export default function AdminTransportPage() {
                     : "bg-white border border-[#D5C9B8] text-[#5C4F46] hover:bg-[#F2ECE1]"
                 }`}
               >
-                16th Jan Wedding ({j16SideCount})
+                15th/16th Jan Bus ({j16SideCount})
               </button>
             </div>
 

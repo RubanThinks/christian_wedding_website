@@ -5,12 +5,17 @@ export interface GuestItem {
 
 export interface JourneyConfig {
   id: string;
+  side?: GuestSide;
   label: string;
   shortLabel: string;
   date: string;
+  departureDate?: string;
+  arrivalDate?: string;
   eventName: string;
   mode: "train" | "bus" | "flight";
   enabled: boolean;
+  boardingStation?: string;
+  description?: string;
 }
 
 export interface SideTransportInfo {
@@ -19,6 +24,10 @@ export interface SideTransportInfo {
   modeLabel: string;
   defaultBoarding: string;
   boardingStations?: string[];
+  departureDate?: string;
+  arrivalDate?: string;
+  eventTarget?: string;
+  notes?: string;
 }
 
 export interface TransportConfig {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { weddingData } from "@/config/wedding";
 import { RSVPData, JourneyTransportSelection } from "@/types/rsvp";
 import { saveRSVP, findRSVPByPhone } from "@/lib/firestore";
@@ -22,6 +22,7 @@ import {
   CheckCircle2,
   Send,
   Bus,
+  Info,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 
@@ -33,6 +34,21 @@ export default function RSVPWizard({ onCompleted }: { onCompleted?: () => void }
   const [step, setStep] = useState<number>(1);
   const [attending, setAttending] = useState<boolean | null>(null);
   const [guestSide, setGuestSide] = useState<"groom" | "bride">("groom");
+
+  // Applicable journey for the selected family side:
+  // - Groom side: ONLY Train departing 8th Jan night (reaching 9th Jan for Engagement)
+  // - Bride side: ONLY Bus departing 15th Jan (reaching 16th Jan for Holy Matrimony & Lunch)
+  const applicableJourneys = useMemo(() => {
+    return journeys.filter((j) => {
+      if (guestSide === "groom") {
+        return j.id === "journey-9" || j.side === "groom";
+      }
+      if (guestSide === "bride") {
+        return j.id === "journey-16" || j.side === "bride";
+      }
+      return true;
+    });
+  }, [journeys, guestSide]);
   const [guestCount, setGuestCount] = useState<number>(1);
   const [guestNames, setGuestNames] = useState<string[]>([""]);
   const [primaryName, setPrimaryName] = useState<string>("");
@@ -591,15 +607,15 @@ export default function RSVPWizard({ onCompleted }: { onCompleted?: () => void }
     );
   }
 
-  // STEP 4: Transportation (Groom: Train @ Kanhangad / Bride: Bus @ Pravattom)
+  // STEP 4: Transportation (Groom: Train on 8th reaching 9th / Bride: Bus on 15th reaching 16th)
   if (step === 4) {
     const isGroom = guestSide === "groom";
     const transportTitle = isGroom
       ? "🚆 Train Travel (Groom's Side • Mulavanal)"
       : "🚌 Bus Travel (Bride's Side • Pazhayapurayil)";
     const boardingDesc = isGroom
-      ? "Train travel arrangements will be coordinated boarding at Kanhangad Railway Station."
-      : "Chartered bus arrangements will be coordinated boarding at Pravattom.";
+      ? "Train travel arrangements will be coordinated from Kanhangad Railway Station departing on Friday night, 8th January (reaching Saturday morning, 9th January for the Sacred Betrothal)."
+      : "Chartered bus arrangements will be coordinated from Pravattom departing on Friday, 15th January (reaching Saturday, 16th January for the Holy Matrimony & Lunch).";
 
     return (
       <div className="space-y-6 text-left animate-fade-in max-w-xl mx-auto">
@@ -609,12 +625,12 @@ export default function RSVPWizard({ onCompleted }: { onCompleted?: () => void }
             {isGroom ? "Train Transportation" : "Bus Transportation"}
           </h3>
           <p className="text-xs text-[#5C4F46] font-sans-clean max-w-md mx-auto">
-            {boardingDesc} Please indicate your travel needs for each date independently:
+            {boardingDesc} Please indicate if you require this coordinated travel:
           </p>
         </div>
 
         {/* Side Info Pill */}
-        <div className="p-3 rounded-xl bg-[#FAF0DC] border border-[#D4A33B]/50 flex items-center justify-between text-xs">
+        <div className="p-3.5 rounded-xl bg-[#FAF0DC] border border-[#D4A33B]/50 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
           <div className="flex items-center gap-2">
             {isGroom ? (
               <Train className="w-4 h-4 text-[#78223B]" />
@@ -624,13 +640,13 @@ export default function RSVPWizard({ onCompleted }: { onCompleted?: () => void }
             <span className="font-bold text-[#78223B]">{transportTitle}</span>
           </div>
           <span className="text-[11px] font-bold text-[#8E681C] uppercase tracking-wider">
-            {isGroom ? "Boarding: Kanhangad" : "Boarding: Pravattom"}
+            {isGroom ? "Boarding: Kanhangad (Train)" : "Boarding: Pravattom (Bus)"}
           </span>
         </div>
 
-        {/* Independent Journey Accordions / Cards */}
+        {/* Coordinated Journey Card */}
         <div className="space-y-5">
-          {journeys.map((j) => {
+          {applicableJourneys.map((j) => {
             const currentSelection = transportSelections[j.id];
             const isReq = currentSelection.required;
 
@@ -809,6 +825,23 @@ export default function RSVPWizard({ onCompleted }: { onCompleted?: () => void }
           })}
         </div>
 
+        {/* Family Travel Scope Clarification Note */}
+        <div className="p-4 rounded-xl bg-[#FAF7F2] border border-[#D4A33B]/40 text-xs text-[#5C4F46] flex items-start gap-3">
+          <Info className="w-4 h-4 text-[#8E681C] flex-shrink-0 mt-0.5" />
+          <div className="space-y-1">
+            <span className="font-bold text-[#78223B] block">
+              {isGroom
+                ? "Holy Matrimony & Lunch (16th Jan) Travel Notice:"
+                : "Sacred Betrothal (9th Jan) Travel Notice:"}
+            </span>
+            <p className="leading-relaxed">
+              {isGroom
+                ? "Groom's family coordinates train travel exclusively for the Sacred Betrothal (departing Friday night, 8th Jan from Kanhangad, reaching Saturday morning, 9th Jan). Transportation for the Wedding on 16th Jan is self-arranged."
+                : "Bride's family coordinates chartered bus travel exclusively for the Holy Matrimony & Lunch (departing Friday, 15th Jan from Pravattom, reaching Saturday, 16th Jan). Transportation for the Engagement on 9th Jan is self-arranged."}
+            </p>
+          </div>
+        </div>
+
         {/* Special Requirements Note */}
         <div>
           <label className="block text-[11px] uppercase tracking-wider text-[#5C4F46] font-sans-clean font-bold mb-1">
@@ -915,7 +948,7 @@ export default function RSVPWizard({ onCompleted }: { onCompleted?: () => void }
                 <span className="text-[10px] uppercase tracking-wider text-[#8E681C] font-bold block">
                   {guestSide === "bride" ? "Bus Transportation Summary:" : "Train Transportation Summary:"}
                 </span>
-                {journeys.map((j) => {
+                {applicableJourneys.map((j) => {
                   const t = transportSelections[j.id];
                   const isBride = guestSide === "bride";
                   const stationName = isBride ? "Pravattom (Bus Pickup)" : "Kanhangad (Railway Station)";
@@ -927,7 +960,7 @@ export default function RSVPWizard({ onCompleted }: { onCompleted?: () => void }
                     >
                       <div>
                         <span className="font-bold text-[#78223B] block">
-                          {isBride ? "🚌" : "🚆"} {j.shortLabel} {isBride ? "Bus" : "Train"}:
+                          {isBride ? "🚌" : "🚆"} {j.shortLabel}:
                         </span>
                         {t?.required ? (
                           <p className="text-[11px] text-[#5C4F46]">
