@@ -305,7 +305,7 @@ export default function InvitationEditorial() {
                 <div className="flex items-center gap-1.5 text-[#78223B] mb-1">
                   <Church className="w-4 h-4" />
                   <span className="text-[10px] uppercase tracking-[0.2em] font-sans-clean font-bold">
-                    <span className="font-poppins font-bold">2.</span> Holy Matrimony &amp; Lunch
+                    <span className="font-poppins font-bold">2.</span> Holy Matrimony
                   </span>
                 </div>
                 <h4 className="font-serif-luxury text-base font-bold text-[#1F1A17]">
