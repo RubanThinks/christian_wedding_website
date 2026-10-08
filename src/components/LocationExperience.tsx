@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { weddingData } from "@/config/wedding";
 import { MapPin, Navigation, Car, ExternalLink, Calendar, Clock, Church, Sparkles } from "lucide-react";
+import LatinCross from "@/components/LatinCross";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -109,9 +110,9 @@ export default function LocationExperience() {
         {/* Prelude header */}
         <div className="mb-6 sm:mb-8">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FAF0DC] border border-[#D4A33B]/40 text-[#8E681C] text-[11px] uppercase tracking-[0.3em] font-sans-clean font-semibold mb-2">
-            <span>✝</span>
+            <LatinCross className="w-2.5 h-2.5 text-[#D4A33B]" />
             <span>Chapter II • Sacred Celebrations &amp; Destinations</span>
-            <span>✝</span>
+            <LatinCross className="w-2.5 h-2.5 text-[#D4A33B]" />
           </div>
           <h2 className="font-serif-luxury text-3xl sm:text-5xl md:text-6xl text-[#211B17] font-semibold tracking-wide">
             Dates, Times &amp; Gathering Places

@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { weddingData } from "@/config/wedding";
 import { Church, Sparkles, Heart } from "lucide-react";
+import LatinCross from "@/components/LatinCross";
 
 export default function InvitationEditorial() {
   const { couple, ceremony, reception, engagement } = weddingData;
@@ -41,9 +42,9 @@ export default function InvitationEditorial() {
         <div className="text-center flex flex-col items-center">
           {/* Section Prelude Ribbon */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/80 backdrop-blur-md border border-[#D4A33B]/40 text-[#8E681C] text-[11px] uppercase tracking-[0.3em] font-sans-clean font-semibold shadow-xs mb-4 sm:mb-6">
-            <span>✝</span>
+            <LatinCross className="w-2.5 h-2.5 text-[#D4A33B]" />
             <span>Chapter I • The Sacred Union</span>
-            <span>✝</span>
+            <LatinCross className="w-2.5 h-2.5 text-[#D4A33B]" />
           </div>
 
           {/* Dedicated Romantic Watercolor Artwork Portal */}
@@ -55,7 +56,7 @@ export default function InvitationEditorial() {
             <div className="relative rounded-t-[140px] sm:rounded-t-[170px] rounded-b-3xl overflow-hidden shadow-[0_20px_50px_rgba(120,34,59,0.22)] ring-1 ring-[#D4A33B]/60 ring-offset-4 ring-offset-white/90 bg-white/40 backdrop-blur-xs transition-transform duration-700 group-hover:scale-[1.015]">
               {/* Crown Holy Cross Icon */}
               <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center select-none pointer-events-none">
-                <span className="text-[#D4A33B] text-sm font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">✝</span>
+                <LatinCross className="w-4 h-4 text-[#D4A33B] drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" />
               </div>
 
               {/* High-Resolution Watercolor Portrait */}
@@ -103,28 +104,32 @@ export default function InvitationEditorial() {
             ensures 100% text contrast and readability without disappearing.
            ========================================================================= */}
         <div className="relative rounded-2xl p-5 sm:p-10 md:p-14 text-[#211B17] shadow-[0_25px_60px_-15px_rgba(120,34,59,0.18)] border-2 border-[#D4A33B]/45 bg-white/85 sm:bg-white/88 backdrop-blur-md">
-          
-          {/* Subtle diagonal silk ribbon corner effect */}
-          <div className="absolute -top-1 -right-1 w-24 h-24 overflow-hidden pointer-events-none">
-            <div className="absolute transform rotate-45 bg-[#78223B] text-[#F2DC9B] text-[9px] uppercase tracking-widest font-sans-clean font-bold py-1 right-[-40px] top-[24px] w-[140px] text-center shadow-md border-y border-[#D4A33B]/50">
-              Covenant
-            </div>
-          </div>
 
           {/* Gold Foil Double Border */}
           <div className="border border-[#D4A33B]/40 p-4 sm:p-7 md:p-9 relative rounded-xl bg-white/30 backdrop-blur-xs">
-            {/* Corner Decorative Crosses */}
-            <span className="absolute top-2 left-2 text-[#D4A33B] text-xs">✝</span>
-            <span className="absolute top-2 right-2 text-[#D4A33B] text-xs">✝</span>
-            <span className="absolute bottom-2 left-2 text-[#D4A33B] text-xs">✝</span>
-            <span className="absolute bottom-2 right-2 text-[#D4A33B] text-xs">✝</span>
+            {/* Corner Decorative Golden Crosses (SVG: Never turns into iOS purple emoji) */}
+            <LatinCross className="absolute top-2.5 left-2.5 w-3 h-3 text-[#D4A33B]" />
+            <LatinCross className="absolute top-2.5 right-2.5 w-3 h-3 text-[#D4A33B]" />
+            <LatinCross className="absolute bottom-2.5 left-2.5 w-3 h-3 text-[#D4A33B]" />
+            <LatinCross className="absolute bottom-2.5 right-2.5 w-3 h-3 text-[#D4A33B]" />
 
-            {/* Top Monogram Wax Seal Motif */}
+            {/* Top Monogram Wax Seal Motif (Fixed for iPhone/Mobile & Desktop) */}
             <div className="flex flex-col items-center mb-6 sm:mb-8">
-              <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-[#78223B] border-2 border-[#D4A33B] shadow-md flex items-center justify-center mb-2.5">
-                <span className="font-serif-luxury text-base font-bold text-[#F2DC9B] tracking-wider">
-                  {(groom.firstName || groom.name).charAt(0)} ✝ {(bride.firstName || bride.name).charAt(0)}
-                </span>
+              <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-full bg-gradient-to-br from-[#78223B] to-[#551425] border-2 border-[#D4A33B] shadow-md flex flex-col items-center justify-center mb-2.5 ring-2 ring-[#D4A33B]/30 ring-offset-2 ring-offset-white select-none">
+                {/* Delicate Holy Cross SVG - Always golden vector, zero emoji replacement */}
+                <LatinCross className="w-3.5 h-3.5 text-[#E7C982] mb-0.5" />
+                {/* Monogram Initials M & S on one horizontal line */}
+                <div className="flex items-center justify-center gap-1 leading-none whitespace-nowrap">
+                  <span className="font-serif-luxury text-base sm:text-lg font-bold text-[#F2DC9B] leading-none">
+                    {(groom.firstName || groom.name).charAt(0)}
+                  </span>
+                  <span className="font-script text-xs sm:text-sm text-[#D4A33B] italic leading-none">
+                    &amp;
+                  </span>
+                  <span className="font-serif-luxury text-base sm:text-lg font-bold text-[#F2DC9B] leading-none">
+                    {(bride.firstName || bride.name).charAt(0)}
+                  </span>
+                </div>
               </div>
               <p className="text-[10px] md:text-xs uppercase tracking-[0.35em] text-[#8E681C] font-sans-clean font-bold">
                 Under the Blessing of Almighty God
@@ -194,7 +199,7 @@ export default function InvitationEditorial() {
                     {/* Crown Cross Accent */}
                     <div className="absolute top-2.5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1 select-none pointer-events-none">
                       <span className="text-[#E7C982] text-xs">✦</span>
-                      <span className="text-[#E7C982] text-sm font-bold">✝</span>
+                      <LatinCross className="w-3.5 h-3.5 text-[#E7C982]" />
                       <span className="text-[#E7C982] text-xs">✦</span>
                     </div>
 

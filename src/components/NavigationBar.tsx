@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { weddingData } from "@/config/wedding";
+import LatinCross from "@/components/LatinCross";
 
 export default function NavigationBar() {
   const [scrolled, setScrolled] = useState(false);
@@ -54,7 +55,7 @@ export default function NavigationBar() {
             >
               {weddingData.couple.bride.name.split(" ")[0]} & {weddingData.couple.groom.name.split(" ")[0]}
             </span>
-            <span className="text-[#D4A33B] text-xs">✝</span>
+            <LatinCross className="w-2.5 h-2.5 text-[#D4A33B]" />
           </div>
           <p
             className={`text-[10px] tracking-[0.25em] uppercase font-sans-clean hidden sm:block ${

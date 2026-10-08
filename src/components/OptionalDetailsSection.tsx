@@ -3,6 +3,7 @@
 import React from "react";
 import { weddingData } from "@/config/wedding";
 import { Gift, Video, Sparkles, Building, Shirt, ExternalLink } from "lucide-react";
+import LatinCross from "@/components/LatinCross";
 
 export default function OptionalDetailsSection() {
   const opt = weddingData.optional;
@@ -25,9 +26,9 @@ export default function OptionalDetailsSection() {
     >
       <div className="relative z-10 max-w-4xl mx-auto w-full text-center">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF0DC] border border-[#D4A33B]/40 text-[#8E681C] text-[11px] uppercase tracking-[0.3em] font-sans-clean font-semibold mb-2">
-          <span>✝</span>
-          <span>Guest Information & Provisions</span>
-          <span>✝</span>
+          <LatinCross className="w-2.5 h-2.5 text-[#D4A33B]" />
+          <span>Guest Information &amp; Provisions</span>
+          <LatinCross className="w-2.5 h-2.5 text-[#D4A33B]" />
         </div>
         <h2 className="font-serif-luxury text-3xl sm:text-4xl text-[#211B17] font-semibold tracking-wide mb-10">
           Details for Our Beloved Guests

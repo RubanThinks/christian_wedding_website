@@ -5,6 +5,7 @@ import Link from "next/link";
 import { weddingData } from "@/config/wedding";
 import { Mail, Phone, Calendar, HeartHandshake, X, ArrowUpRight } from "lucide-react";
 import RSVPWizard from "./rsvp/RSVPWizard";
+import LatinCross from "@/components/LatinCross";
 
 export default function RsvpSection() {
   const { rsvp } = weddingData;
@@ -22,16 +23,18 @@ export default function RsvpSection() {
         {/* Section Prelude */}
         <div className="mb-8 flex flex-col items-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF0DC] border border-[#D4A33B]/40 text-[#8E681C] text-[11px] uppercase tracking-[0.3em] font-sans-clean font-semibold mb-2">
-            <span>✝</span>
+            <LatinCross className="w-2.5 h-2.5 text-[#D4A33B]" />
             <span>RSVP &amp; Travel Coordination</span>
-            <span>✝</span>
+            <LatinCross className="w-2.5 h-2.5 text-[#D4A33B]" />
           </div>
         </div>
 
         {/* Physical Stationery RSVP Card */}
         <div className="paper-deckled rounded-xl p-8 sm:p-14 md:p-16 text-[#211B17] shadow-xl relative border-2 border-[#D4A33B]/40 bg-white">
           <div className="border border-[#D4A33B]/40 p-6 sm:p-10 relative rounded-lg">
-            <span className="text-sm text-[#D4A33B] block mb-2 font-bold">✝</span>
+            <div className="mb-2 flex justify-center">
+              <LatinCross className="w-4 h-4 text-[#D4A33B]" />
+            </div>
 
             <h2 className="font-serif-luxury text-3xl sm:text-5xl md:text-6xl text-[#211B17] font-bold tracking-tight leading-tight">
               We Would Love to Celebrate with You

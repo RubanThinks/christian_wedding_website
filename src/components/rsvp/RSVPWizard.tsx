@@ -24,6 +24,7 @@ import {
   Bus,
   Info,
 } from "lucide-react";
+import LatinCross from "@/components/LatinCross";
 import confetti from "canvas-confetti";
 
 export default function RSVPWizard({ onCompleted }: { onCompleted?: () => void }) {
@@ -274,7 +275,9 @@ export default function RSVPWizard({ onCompleted }: { onCompleted?: () => void }
     return (
       <div className="space-y-6 text-center animate-fade-in">
         <div className="space-y-2">
-          <span className="text-xs text-[#D4A33B] font-bold">✝</span>
+          <div className="flex justify-center">
+            <LatinCross className="w-3.5 h-3.5 text-[#D4A33B]" />
+          </div>
           <h3 className="font-serif-luxury text-2xl sm:text-4xl text-[#211B17] font-bold">
             We Would Love to Have You With Us
           </h3>
@@ -321,7 +324,9 @@ export default function RSVPWizard({ onCompleted }: { onCompleted?: () => void }
     return (
       <div className="space-y-6 text-center animate-fade-in max-w-md mx-auto">
         <div className="space-y-1">
-          <span className="text-xs text-[#D4A33B] font-bold">✝</span>
+          <div className="flex justify-center">
+            <LatinCross className="w-3.5 h-3.5 text-[#D4A33B]" />
+          </div>
           <h3 className="font-serif-luxury text-2xl sm:text-3xl text-[#211B17] font-bold">
             Family &amp; Guest Count
           </h3>
@@ -452,7 +457,9 @@ export default function RSVPWizard({ onCompleted }: { onCompleted?: () => void }
     return (
       <div className="space-y-6 text-left animate-fade-in max-w-lg mx-auto">
         <div className="text-center space-y-1 mb-4">
-          <span className="text-xs text-[#D4A33B] font-bold">✝</span>
+          <div className="flex justify-center">
+            <LatinCross className="w-3.5 h-3.5 text-[#D4A33B]" />
+          </div>
           <h3 className="font-serif-luxury text-2xl sm:text-3xl text-[#211B17] font-bold">
             {attending ? "Guest & Contact Details" : "Your Contact Details"}
           </h3>
@@ -620,7 +627,9 @@ export default function RSVPWizard({ onCompleted }: { onCompleted?: () => void }
     return (
       <div className="space-y-6 text-left animate-fade-in max-w-xl mx-auto">
         <div className="text-center space-y-1 mb-4">
-          <span className="text-xs text-[#D4A33B] font-bold">✝</span>
+          <div className="flex justify-center">
+            <LatinCross className="w-3.5 h-3.5 text-[#D4A33B]" />
+          </div>
           <h3 className="font-serif-luxury text-2xl sm:text-3xl text-[#211B17] font-bold">
             {isGroom ? "Train Transportation" : "Bus Transportation"}
           </h3>
@@ -884,7 +893,9 @@ export default function RSVPWizard({ onCompleted }: { onCompleted?: () => void }
     return (
       <div className="space-y-6 text-left animate-fade-in max-w-lg mx-auto">
         <div className="text-center space-y-1 mb-4">
-          <span className="text-xs text-[#D4A33B] font-bold">✝</span>
+          <div className="flex justify-center">
+            <LatinCross className="w-3.5 h-3.5 text-[#D4A33B]" />
+          </div>
           <h3 className="font-serif-luxury text-2xl sm:text-3xl text-[#211B17] font-bold">
             Review Your Response
           </h3>

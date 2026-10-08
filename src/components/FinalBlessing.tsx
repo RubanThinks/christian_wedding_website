@@ -4,6 +4,7 @@ import React, { useRef, useEffect } from "react";
 import Image from "next/image";
 import { weddingData } from "@/config/wedding";
 import { ArrowUp } from "lucide-react";
+import LatinCross from "@/components/LatinCross";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -41,7 +42,7 @@ export default function FinalBlessing() {
       <div className="relative z-10 max-w-2xl mx-auto text-center flex flex-col items-center space-y-8 p-6 sm:p-10 rounded-2xl bg-white/70 backdrop-blur-md border border-[#D4A33B]/40 shadow-xl">
         {/* Subtle Cross */}
         <div className="flex flex-col items-center">
-          <span className="text-[#D4A33B] text-xl font-bold">✝</span>
+          <LatinCross className="w-5 h-5 text-[#D4A33B]" />
           <div className="w-[1px] h-6 bg-[#D4A33B]/50 mt-2" />
         </div>
 
@@ -95,10 +96,10 @@ export default function FinalBlessing() {
 
           <a
             href="/admin/login"
-            className="text-[11px] font-sans-clean text-[#8E7F74]/60 hover:text-[#78223B] tracking-wider transition-colors pt-4 flex items-center gap-1"
+            className="text-[11px] font-sans-clean text-[#8E7F74]/60 hover:text-[#78223B] tracking-wider transition-colors pt-4 flex items-center gap-1.5"
             title="Organizer Portal"
           >
-            <span>✝</span>
+            <LatinCross className="w-2.5 h-2.5 text-[#D4A33B]" />
             <span>Host Portal</span>
           </a>
         </div>
