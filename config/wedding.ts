@@ -16,8 +16,8 @@ export const weddingData: WeddingConfig = {
       houseName: "Pazhayapurayil",
       portrait: "/images/couple/bride.webp",
       parents: {
-        father: "Jose Pazhayapurayil Kurian",
-        mother: "Laiby Jose"
+        father: "Mr. Jose Pazhayapurayil Kurian",
+        mother: "Mrs. Laiby Jose"
       },
       quote: "My beloved is mine, and I am his."
     },
@@ -27,8 +27,8 @@ export const weddingData: WeddingConfig = {
       houseName: "Mulavanal",
       portrait: "/images/couple/groom.webp",
       parents: {
-        father: "Mathew Mulavanal Joseph",
-        mother: "Mercily Ayithil Philip"
+        father: "Mr. Mathew Mulavanal Joseph",
+        mother: "Mrs. Mercily Ayithil Philip"
       },
       quote: "I found the one whom my soul loves."
     }
