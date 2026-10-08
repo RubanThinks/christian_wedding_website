@@ -47,49 +47,49 @@ export default function InvitationEditorial() {
             <LatinCross className="w-2.5 h-2.5 text-[#D4A33B]" />
           </div>
 
-          {/* Dedicated Romantic Watercolor Artwork Portal */}
-          <div className="relative group w-full max-w-[280px] sm:max-w-[340px] md:max-w-[380px] mx-auto">
-            {/* Soft Ambient Gold Aura Glow */}
-            <div className="absolute -inset-3 bg-gradient-to-b from-[#E8C16A]/30 via-[#C59A45]/20 to-transparent rounded-full filter blur-xl opacity-80 group-hover:opacity-100 transition-opacity pointer-events-none" />
+          {/* Dedicated Romantic Couple Artwork — Circular Placeholder with Centered Subject */}
+          <div className="relative group mx-auto flex flex-col items-center">
+            {/* Circular Frame Container */}
+            <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80">
+              {/* Soft Ambient Gold Aura Glow */}
+              <div className="absolute -inset-3 bg-gradient-to-b from-[#E8C16A]/40 via-[#C59A45]/20 to-transparent rounded-full filter blur-xl opacity-80 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
-            {/* Sacred Arch Portrait Container */}
-            <div className="relative rounded-t-[140px] sm:rounded-t-[170px] rounded-b-3xl overflow-hidden shadow-[0_20px_50px_rgba(120,34,59,0.22)] ring-1 ring-[#D4A33B]/60 ring-offset-4 ring-offset-white/90 bg-white/40 backdrop-blur-xs transition-transform duration-700 group-hover:scale-[1.015]">
-              {/* Crown Holy Cross Icon */}
-              <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center select-none pointer-events-none">
-                <LatinCross className="w-4 h-4 text-[#D4A33B] drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" />
+              {/* Crown Holy Cross Accent */}
+              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20 flex items-center justify-center w-7 h-7 rounded-full bg-white border border-[#D4A33B] shadow-md select-none">
+                <LatinCross className="w-3.5 h-3.5 text-[#D4A33B]" />
               </div>
 
-              {/* High-Resolution Watercolor Portrait */}
-              <div className="relative aspect-[3/4] w-full">
+              {/* Circular Portrait Canvas */}
+              <div className="relative w-full h-full rounded-full overflow-hidden shadow-[0_20px_50px_rgba(120,34,59,0.25)] ring-2 ring-[#D4A33B] ring-offset-4 ring-offset-white/95 border-2 border-[#D4A33B]/60 bg-white/40 backdrop-blur-xs transition-transform duration-700 group-hover:scale-[1.02]">
                 <Image
                   src="/images/couple/bg-couple.jpg"
-                  alt="Sara Jose & Mishel Mathew - Watercolor Portrait"
+                  alt="Sara Jose & Mishel Mathew - Couple Artwork"
                   fill
                   priority
-                  sizes="(max-width: 640px) 280px, 380px"
-                  className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105 filter contrast-[1.04]"
+                  sizes="(max-width: 640px) 256px, (max-width: 768px) 288px, 320px"
+                  className="object-cover object-[center_36%] transition-transform duration-700 ease-out group-hover:scale-105 filter contrast-[1.04]"
                 />
-                {/* Delicate inner hairline golden arch ring */}
-                <div className="absolute inset-0 rounded-t-[140px] sm:rounded-t-[170px] rounded-b-3xl ring-1 ring-inset ring-[#D4A33B]/40 pointer-events-none" />
+                {/* Delicate inner hairline gold ring */}
+                <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-[#D4A33B]/40 pointer-events-none" />
                 {/* Soft gradient bottom melt */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 pointer-events-none" />
-
-                {/* Floating romantic badge at the base of the portrait */}
-                <div className="absolute bottom-3 inset-x-3 text-center z-20">
-                  <div className="inline-block px-3.5 py-1.5 rounded-full bg-white/85 backdrop-blur-md border border-[#D4A33B]/50 shadow-md">
-                    <p className="font-script text-base sm:text-lg text-[#78223B] leading-none">
-                      Sara &amp; Mishel
-                    </p>
-                    <p className="text-[9px] uppercase tracking-[0.25em] text-[#8E681C] font-sans-clean font-bold mt-0.5">
-                      Two Hearts • One Covenant
-                    </p>
-                  </div>
-                </div>
+                <div className="absolute inset-0 rounded-full bg-gradient-to-t from-black/35 via-transparent to-black/10 pointer-events-none" />
               </div>
             </div>
 
-            {/* Subtitle scripture quote right below the watercolor reveal */}
-            <p className="mt-3 text-xs sm:text-sm text-[#5C4F46] font-serif-luxury italic tracking-wide">
+            {/* Floating romantic badge below circular portrait */}
+            <div className="mt-4 text-center">
+              <div className="inline-block px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-[#D4A33B]/50 shadow-md">
+                <p className="font-script text-base sm:text-lg text-[#78223B] leading-none">
+                  Sara &amp; Mishel
+                </p>
+                <p className="text-[9px] uppercase tracking-[0.25em] text-[#8E681C] font-sans-clean font-bold mt-0.5">
+                  Two Hearts • One Covenant
+                </p>
+              </div>
+            </div>
+
+            {/* Subtitle scripture quote right below the circular photo */}
+            <p className="mt-3 text-xs sm:text-sm text-[#5C4F46] font-serif-luxury italic tracking-wide text-center">
               &ldquo;He has made everything beautiful in its time.&rdquo;
               <span className="block text-[10px] text-[#8E681C] font-sans-clean not-italic uppercase tracking-[0.2em] font-bold mt-0.5">
                 Ecclesiastes 3:11

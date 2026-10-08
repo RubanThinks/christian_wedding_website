@@ -9,6 +9,10 @@ import LatinCross from "@/components/LatinCross";
 
 export default function HeroVideoIntro() {
   const scrollToCouple = () => {
+    const audio = document.querySelector("audio");
+    if (audio && audio.paused) {
+      audio.play().catch(() => {});
+    }
     const nextSection =
       document.getElementById("scene-invitation") || document.getElementById("scene-couple");
     if (nextSection) {
@@ -19,6 +23,12 @@ export default function HeroVideoIntro() {
   return (
     <section
       id="scene-hero"
+      onPointerDown={() => {
+        const audio = document.querySelector("audio");
+        if (audio && audio.paused) {
+          audio.play().catch(() => {});
+        }
+      }}
       className="relative w-full h-[100svh] min-h-[640px] flex items-center justify-center overflow-hidden bg-black"
     >
       {/* =========================================================================
