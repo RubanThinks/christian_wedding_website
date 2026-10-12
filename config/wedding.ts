@@ -62,7 +62,7 @@ export const weddingData: WeddingConfig = {
     address: "Chullikkara, Kasaragod, Kerala",
     date: "Saturday, 16 January 2027",
     time: "10:30 AM",
-    mapUrl: "https://maps.app.goo.gl/fcLeMUVaTctrPEhU7",
+    mapUrl: "https://maps.app.goo.gl/XJV7gBjRdeCc3DGA8",
     photoUrl: "/images/church/church-facade.webp",
     notes: "Holy Matrimony service starts promptly at 10:30 AM."
   },
